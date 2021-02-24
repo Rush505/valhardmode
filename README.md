@@ -15,6 +15,7 @@
 
 ### Server Handshaking
 * Mod will only load if playing solo or if the server connecting to also has it installed
+* Servers running this mod will only allow clients to connect if they also have the mod installed
 
 
 ## Installation
