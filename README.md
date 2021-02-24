@@ -20,6 +20,7 @@
 
 ## Installation
 
-1. Install [BepInExPack Valheim](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/) on client and/or server
-2. Download latest release and copy `ValHardMode.dll` to `<Steam Location>\steamapps\common\Valheim\BepInEx\plugins`
-3. Start game and/or server and enjoy!
+1. Backup your characters and worlds! Copy `C:\Users\<username>\AppData\LocalLow\IronGate\Valheim` somewhere just in case
+2. Install [BepInExPack Valheim](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/) on client and/or server
+3. Download latest release and copy `ValHardMode.dll` to `<Steam Location>\steamapps\common\Valheim\BepInEx\plugins`
+4. Start game and/or server and enjoy!
