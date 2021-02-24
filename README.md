@@ -13,5 +13,12 @@
 * Increases boss health by 1.5x
 * Prevents most non-equippable or food items from being teleported
 
-### Server Verification
-* Mod will only load if playing solo or if the dedicated also has it installed
+### Server Handshaking
+* Mod will only load if playing solo or if the server connecting to also has it installed
+
+
+## Installation
+
+1. Install [BepInExPack Valheim](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/) on client and/or server
+2. Download latest release and copy `ValHardMode.dll` to `<Steam Location>\steamapps\common\Valheim\BepInEx\plugins`
+3. Start game and/or server and enjoy!
