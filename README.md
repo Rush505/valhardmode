@@ -27,4 +27,4 @@
 
 ## Known Issues
 
-* When removing or disabling the mod, item stacks or ore/fuel in Smelter-type objects over the normal max amount will be lost
+* When removing the mod, or loading a character that played on a modded server in a non-modded server, item stacks or ore/fuel in Smelter-type objects over the normal max amount will be lost
