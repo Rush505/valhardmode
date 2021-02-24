@@ -9,8 +9,11 @@ namespace ValHardMode
     {
         private static void Postfix(ref ZNet __instance)
         {
-            // Set player position visibility to public by default on server join
-            __instance.SetPublicReferencePosition(true);
+            if (Configuration.Current.IsEnabled)
+            {
+                // Set player position visibility to public by default on server join
+                __instance.SetPublicReferencePosition(true);
+            }
         }
     }
 }

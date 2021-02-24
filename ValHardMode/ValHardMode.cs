@@ -8,7 +8,6 @@ namespace ValHardMode
     public class ValHardMode : BaseUnityPlugin
     {
         public static string version = "0.0.1";
-        public static Boolean isUpToDate = false;
 
         // Project Repository Info
         public static string Repository = "https://github.com/remmizekim/valhardmode";
@@ -17,6 +16,9 @@ namespace ValHardMode
         // Awake is called once when both the game and the plug-in are loaded
         void Awake()
         {
+            Configuration.Current = new Configuration();
+            Configuration.Current.IsEnabled = false;
+
             Logger.LogInfo("Patching in ValHardMode");
             var harmony = new Harmony("mod.valhardmode");
             harmony.PatchAll();
