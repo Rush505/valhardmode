@@ -9,8 +9,8 @@ namespace ValHardMode
     {
         private static void Postfix(ref ZNet __instance)
         {
-            // Always enable mod on server and disable on client by default
-            Configuration.Current.IsEnabled = __instance.IsServer();
+            // Always enable mod on dedicated servers and disable on client/solo by default
+            Configuration.Current.IsEnabled = __instance.IsServer() & __instance.IsDedicated();
 
             // Store ZNet instance for use by handlers
             RpcHandlers._zNetInstance = __instance;

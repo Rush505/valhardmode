@@ -14,8 +14,8 @@
 * Prevents most non-equippable or food items from being teleported
 
 ### Server Handshaking
-* Mod will only load if playing solo or if the server connecting to also has it installed
-* Servers running this mod will only allow clients to connect if they also have the mod installed
+* Mod will only load if the server connecting to has the same version installed
+* Servers running this mod will only allow clients to connect if they also have the same version of the mod installed
 
 
 ## Installation
@@ -28,4 +28,3 @@
 ## Known Issues
 
 * When removing or disabling the mod, item stacks or ore/fuel in Smelter-type objects over the normal max amount will be lost
-* No way to currently disable the mod for solo servers besides removing completely
