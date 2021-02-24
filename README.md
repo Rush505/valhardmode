@@ -24,3 +24,8 @@
 2. Install [BepInExPack Valheim](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/) on client and/or server
 3. Download latest release and copy `ValHardMode.dll` to `<Steam Location>\steamapps\common\Valheim\BepInEx\plugins`
 4. Start game and/or server and enjoy!
+
+## Known Issues
+
+* When removing or disabling the mod, item stacks or ore/fuel in Smelter-type objects over the normal max amount will be lost
+* No way to currently disable the mod for solo servers besides removing completely
