@@ -6,18 +6,17 @@ It is meant to run on a dedicated server and requires all players connecting to 
 ## Current Features
 
 ### Quality of Life
-* Auto-enables position sharing
-* Increases max stack size of stackable items to 999
-* Increases max capacity of Smelter-like objects by 5x
+* Increases max stack size of stackable items
+* Increases max capacity of Smelter-like objects
 * Fireplace-type objects don't consume fuel
 * Allow usage of items while swimming
 * Ability to delete items by picking them up and hitting DEL key (this is not reversible and there is no confirmation!)
+* Increased crafting station use range
 
 ### Difficulty Increases
-* Increases normal enemy health by 2x
-* Increases all boss health by 1.5x
-* Increased Eikthyr movement speeds
+* Increases normal enemy health
 * Double the chance for enemies to be a higher level
+* Increased Eikthyr movement speed and special attack damage
 * Prevents most non-equippable/consumable items from being teleported
 * Increased damage taken by ships from large waves
 
@@ -28,10 +27,11 @@ It is meant to run on a dedicated server and requires all players connecting to 
 
 ## Installation
 
-1. Backup your characters and worlds! Copy `C:\Users\<username>\AppData\LocalLow\IronGate\Valheim` somewhere just in case
-2. Install [BepInExPack Valheim](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/) on client and/or server
-3. Download latest release and copy `ValHardMode.dll` to `<Steam Location>\steamapps\common\Valheim\BepInEx\plugins`
-4. Start game and/or server and enjoy!
+1. Backup your characters and worlds! Copy `C:\Users\<username>\AppData\LocalLow\IronGate\Valheim` somewhere safe just in case
+2. Install [BepInExPack Valheim](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/) on clients and server
+3. Download latest release and extract `ValHardMode.dll` to `...\BepInEx\plugins` folder created from previous step
+4. Enjoy!
+
 
 ## Known Issues
 
