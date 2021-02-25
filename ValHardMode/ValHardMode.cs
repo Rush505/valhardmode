@@ -1,5 +1,6 @@
 ﻿using System;
 using BepInEx;
+using BepInEx.Configuration;
 using HarmonyLib;
 
 namespace ValHardMode
@@ -7,19 +8,18 @@ namespace ValHardMode
     [BepInPlugin("org.remmiz.plugins.valhardmode", "Valheim Hard Mode", "0.0.1.0")]
     public class ValHardMode : BaseUnityPlugin
     {
-        public static string version = "0.0.1";
-
-        // Project Repository Info
-        public static string Repository = "https://github.com/remmizekim/valhardmode";
-        public static string ApiRepository = "https://api.github.com/repos/remmizekim/valhardmode/tags";
 
         // Awake is called once when both the game and the plug-in are loaded
         void Awake()
         {
             Configuration.Current = new Configuration();
             Configuration.Current.IsEnabled = false;
+            Configuration.Current.DeleteHotkey = Config.Bind<string>("General", "DiscardHotkey", "delete", "The hotkey to discard an item");
 
-            Logger.LogInfo("Patching in ValHardMode");
+            string gitRepo = "https://github.com/remmizekim/valhardmode";
+            string gitApiRepo = "https://api.github.com/repos/remmizekim/valhardmode/tags";
+
+            Logger.LogInfo("ValHardMode - Patching in");
             var harmony = new Harmony("mod.valhardmode");
             harmony.PatchAll();
         }

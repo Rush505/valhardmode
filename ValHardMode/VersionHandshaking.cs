@@ -29,7 +29,7 @@ namespace ValHardMode
             // Make calls to check versions
             ZLog.LogWarning("ValHardMode - Invoking version check");
             ZPackage zpackage = new ZPackage();
-            zpackage.Write(ValHardMode.version);
+            zpackage.Write(Configuration.Current.Version);
             peer.m_rpc.Invoke("ValHardMode_Version", (object)zpackage);
         }
     }
@@ -73,8 +73,8 @@ namespace ValHardMode
         public static void RPC_ValHardMode_Version(ZRpc rpc, ZPackage pkg)
         {
             var version = pkg.ReadString();
-            ZLog.LogWarning("ValHardMode - Version check, theirs: " + version + ",  mine: " + ValHardMode.version);
-            if (version != ValHardMode.version)
+            ZLog.LogWarning("ValHardMode - Version check, theirs: " + version + ",  mine: " + Configuration.Current.Version);
+            if (version != Configuration.Current.Version)
             {
                 
                 if (_zNetInstance.IsServer())

@@ -1,4 +1,7 @@
 # ValHardMode - Hard Mode mod for Valheim
+ValHardMode is a mod that is intended to increase the difficulty of Valheim while also including some low-impact QoL changes.
+
+It is meant to run on a dedicated server and requires all players connecting to that server to install the mod as well.
 
 ## Current Features
 
@@ -6,12 +9,17 @@
 * Auto-enables position sharing
 * Increases max stack size of stackable items to 999
 * Increases max capacity of Smelter-like objects by 5x
-* No fuel usage on fireplace type objects
+* Fireplace-type objects don't consume fuel
+* Allow usage of items while swimming
+* Ability to delete items by picking them up and hitting DEL key (this is not reversible and there is no confirmation!)
 
 ### Difficulty Increases
 * Increases normal enemy health by 2x
-* Increases boss health by 1.5x
-* Prevents most non-equippable or food items from being teleported
+* Increases all boss health by 1.5x
+* Increased Eikthyr movement speeds
+* Double the chance for enemies to be a higher level
+* Prevents most non-equippable/consumable items from being teleported
+* Increased damage taken by ships from large waves
 
 ### Server Handshaking
 * Mod will only load connecting to a dedicated server with the same version installed

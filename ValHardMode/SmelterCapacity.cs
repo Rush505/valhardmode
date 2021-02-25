@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ValHardMode
 {
     [HarmonyPatch(typeof(Smelter), "Awake")]
-    public static class IncreasedSmelterCapacity
+    public static class SmelterCapacity
     {
         private static void Postfix(ref Smelter __instance)
         {

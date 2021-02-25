@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ValHardMode
 {
     [HarmonyPatch(typeof(Fireplace), "UpdateFireplace")]
-    public static class UnlimitedFireplaceCapacity
+    public static class UnlimitedFireplaceFuel
     {
         private static void Postfix(ref Fireplace __instance, ref ZNetView ___m_nview)
         {

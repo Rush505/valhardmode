@@ -1,4 +1,4 @@
-﻿using System;
+﻿using BepInEx.Configuration;
 
 namespace ValHardMode
 {
@@ -6,6 +6,8 @@ namespace ValHardMode
     {
         public static Configuration Current { get; set; }
 
+        public string Version = "0.0.1";
         public bool IsEnabled { get; set; }
+        public ConfigEntry<string> DeleteHotkey { get; set; }
     }
 }

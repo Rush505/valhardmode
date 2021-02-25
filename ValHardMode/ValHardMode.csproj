@@ -78,17 +78,25 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\Libs\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\Libs\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Character.cs" />
+    <Compile Include="AllowItemsWhileSwimming.cs" />
+    <Compile Include="DisallowItemTeleportation.cs" />
+    <Compile Include="BoatDamage.cs" />
+    <Compile Include="EnemyDifficulty.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="Fireplace.cs" />
-    <Compile Include="ItemDrop.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="Smelter.cs" />
+    <Compile Include="DeleteItems.cs" />
+    <Compile Include="UnlimitedFireplaceFuel.cs" />
+    <Compile Include="MobLevelChance.cs" />
+    <Compile Include="MaxItemStacks.cs" />
+    <Compile Include="AutoSetSharedPosition.cs" />
+    <Compile Include="SmelterCapacity.cs" />
     <Compile Include="ValHardMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VersionCheck.cs" />
+    <Compile Include="VersionHandshaking.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
