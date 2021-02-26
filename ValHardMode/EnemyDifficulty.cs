@@ -39,12 +39,26 @@ namespace ValHardMode
         {
             if (Configuration.Current.IsEnabled)
             {
-                if (__instance.m_itemData.m_shared.m_name == "Eikthyr_stomp" || __instance.m_itemData.m_shared.m_name == "Eikthyr_charge")
+                if (__instance.m_itemData.m_shared.m_name == "StagAttack1" || __instance.m_itemData.m_shared.m_name == "StagAttack2")
                 {
                     // Increase Eikthyr special attack damage and prevent blocking
-                    __instance.m_itemData.m_shared.m_damages.m_lightning += 5f;
+                    __instance.m_itemData.m_shared.m_damages.m_lightning = __instance.m_itemData.m_shared.m_damages.m_lightning  * 2;
+                    __instance.m_itemData.m_shared.m_damages.m_damage = __instance.m_itemData.m_shared.m_damages.m_damage * 2;
                     __instance.m_itemData.m_shared.m_blockable = false;
                 }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(SpawnArea), "Awake")]
+    public static class IncreaseMobLevelChance
+    {
+        private static void Postfix(ref SpawnArea __instance)
+        {
+            // Increase the chance for higher level mobs
+            if (Configuration.Current.IsEnabled)
+            {
+                __instance.m_levelupChance = __instance.m_levelupChance * 2;
             }
         }
     }

@@ -23,11 +23,11 @@ namespace ValHardMode
         private static void Prefix(ZNetPeer peer, ref ZNet __instance)
         {
             // Register version check call
-            ZLog.LogWarning("ValHardMode - Registering version RPC handler");
+            ZLog.Log("ValHardMode - Registering version RPC handler");
             peer.m_rpc.Register<ZPackage>("ValHardMode_Version", new Action<ZRpc, ZPackage>(RpcHandlers.RPC_ValHardMode_Version));
 
             // Make calls to check versions
-            ZLog.LogWarning("ValHardMode - Invoking version check");
+            ZLog.Log("ValHardMode - Invoking version check");
             ZPackage zpackage = new ZPackage();
             zpackage.Write(Configuration.Current.Version);
             peer.m_rpc.Invoke("ValHardMode_Version", (object)zpackage);
@@ -59,7 +59,7 @@ namespace ValHardMode
             if (__instance.IsServer())
             {
                 // Remove peer from validated list
-                ZLog.LogWarning("ValHardMode - Peer disconnected, removing from validated list");
+                ZLog.Log("ValHardMode - Peer disconnected, removing from validated list");
                 RpcHandlers._validatedPeers.Remove(peer.m_rpc);
             }
         }
@@ -73,7 +73,7 @@ namespace ValHardMode
         public static void RPC_ValHardMode_Version(ZRpc rpc, ZPackage pkg)
         {
             var version = pkg.ReadString();
-            ZLog.LogWarning("ValHardMode - Version check, theirs: " + version + ",  mine: " + Configuration.Current.Version);
+            ZLog.Log("ValHardMode - Version check, theirs: " + version + ",  mine: " + Configuration.Current.Version);
             if (version != Configuration.Current.Version)
             {
                 
@@ -89,13 +89,13 @@ namespace ValHardMode
                 if (!_zNetInstance.IsServer())
                 {
                     // Enable mod on client if versions match
-                    ZLog.LogWarning("ValHardMode - Recieved same version from server, enabling!");
+                    ZLog.Log("ValHardMode - Recieved same version from server, enabling!");
                     Configuration.Current.IsEnabled = true;
                 }
                 else
                 {
                     // Add client to validated list
-                    ZLog.LogWarning("ValHardMode - Adding peer to validated list");
+                    ZLog.Log("ValHardMode - Adding peer to validated list");
                     _validatedPeers.Add(rpc);
                 }
             }

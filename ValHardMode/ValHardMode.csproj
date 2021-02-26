@@ -83,15 +83,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AllowItemsWhileSwimming.cs" />
-    <Compile Include="CraftingStationRange.cs" />
     <Compile Include="DisallowItemTeleportation.cs" />
     <Compile Include="BoatDamage.cs" />
     <Compile Include="EnemyDifficulty.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="DeleteItems.cs" />
+    <Compile Include="RandomEventDifficulty.cs" />
     <Compile Include="UnlimitedFireplaceFuel.cs" />
-    <Compile Include="MobLevelChance.cs" />
     <Compile Include="MaxItemStacks.cs" />
     <Compile Include="SmelterCapacity.cs" />
     <Compile Include="ValHardMode.cs" />
