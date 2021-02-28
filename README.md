@@ -18,12 +18,27 @@ It is meant to run on a dedicated server and requires all players connecting to 
 * Increased crafting station use range
 
 ### Difficulty Increases
+
+#### Enemies
 * Increases normal enemy health
 * Double the chance for enemies to be a higher level
+* Limit higher level enemy drops
+* Increased size of level 2 and 3 enemies
 * Increased Eikthyr movement speed and special attack damage
-* Prevents most non-equippable/consumable items from being teleported
+
+#### Items
+* Prevent most non-equippable/consumable items from being teleported
+
+#### Player
+* Reduce death skill penalty to only reset progress on current level
+
+#### Random Events
+* Increased duration, spawn amount and chance of random events
+* Enabled Skeleton & Troll events to happen at any time
+* Removed Surtling event
+
+#### General
 * Increased damage taken by ships from large waves
-* Increased difficulty and frequency of random events
 
 ### Server Handshaking
 * Shared features will only load when connecting to a dedicated server with the same version installed

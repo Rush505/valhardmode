@@ -83,11 +83,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleCommands.cs" />
+    <Compile Include="CraftingAndBuildingCosts.cs" />
     <Compile Include="DisallowItemTeleportation.cs" />
     <Compile Include="BoatDamage.cs" />
     <Compile Include="EnemyDifficulty.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="RandomEventDifficulty.cs" />
+    <Compile Include="ReducedDeathPenalty.cs" />
     <Compile Include="UnlimitedFireplaceFuel.cs" />
     <Compile Include="MaxItemStacks.cs" />
     <Compile Include="SmelterCapacity.cs" />

@@ -5,7 +5,7 @@ using HarmonyLib;
 
 namespace ValHardMode
 {
-    [BepInPlugin("org.remmiz.plugins.valhardmode", "ValHardMode", "0.0.3.0")]
+    [BepInPlugin("org.remmiz.plugins.valhardmode", "ValHardMode", "0.0.4.0")]
     public class ValHardMode : BaseUnityPlugin
     {
 
@@ -14,6 +14,7 @@ namespace ValHardMode
         {
             Configuration.Current = new Configuration();
             Configuration.Current.IsEnabled = false;
+
             Configuration.Current.DeleteHotkey = Config.Bind<string>("General", "DiscardHotkey", "delete", "The hotkey to discard an item");
 
             string gitRepo = "https://github.com/remmizekim/valhardmode";

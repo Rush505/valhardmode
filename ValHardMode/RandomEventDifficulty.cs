@@ -21,7 +21,6 @@ namespace ValHardMode
                     {
                         // Allow skeletons and trolls event to happen after killing Eikthyr
                         evnt.m_requiredGlobalKeys.Clear();
-                        evnt.m_requiredGlobalKeys.Add("defeated_eikthyr");
                     }
 
                     // Increase duration
@@ -30,7 +29,8 @@ namespace ValHardMode
                     // Double the possible spawn groups
                     foreach (SpawnSystem.SpawnData spawn in evnt.m_spawn)
                     {
-                        spawn.m_groupSizeMax = spawn.m_groupSizeMax * 2;
+                        spawn.m_groupSizeMax = spawn.m_groupSizeMax * 3;
+                        spawn.m_spawnChance = spawn.m_spawnChance * 3;
                     }
                 }
 

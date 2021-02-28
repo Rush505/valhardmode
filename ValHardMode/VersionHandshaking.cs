@@ -10,7 +10,13 @@ namespace ValHardMode
         private static void Postfix(ref ZNet __instance)
         {
             // Always enable mod on dedicated servers and disable on client/solo by default
+            ZLog.Log("ValHardMode - Setting default IsEnabled to " + (__instance.IsServer() & __instance.IsDedicated()).ToString());
             Configuration.Current.IsEnabled = __instance.IsServer() & __instance.IsDedicated();
+
+#if DEBUG
+            Configuration.Current.IsEnabled = true;
+            ZLog.Log("ValHardMode - Debug enabled, setting IsEnabled to true");
+#endif
 
             // Store ZNet instance for use by handlers
             RpcHandlers._zNetInstance = __instance;
@@ -61,6 +67,11 @@ namespace ValHardMode
                 // Remove peer from validated list
                 ZLog.Log("ValHardMode - Peer disconnected, removing from validated list");
                 RpcHandlers._validatedPeers.Remove(peer.m_rpc);
+            }
+            else
+            {
+                // Disable
+                Configuration.Current.IsEnabled = false;
             }
         }
     }
