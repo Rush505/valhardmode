@@ -14,7 +14,8 @@ namespace ValHardMode
             {
                 if (!__instance.IsBoss() && __instance.IsMonsterFaction())
                 {
-                    __instance.SetMaxHealth(__instance.GetMaxHealth() * Configuration.Current.NonBossEnemyMaxHealthFactor);
+                    __instance.SetMaxHealth(__instance.m_health * Game.instance.GetDifficultyHealthScale(((Component)__instance).transform.position) * (float)__instance.GetLevel());
+                    __instance.SetMaxHealth(__instance.GetMaxHealth() * 1.5f);
                 }
 
                 if (__instance.m_name == "$enemy_troll")
@@ -28,12 +29,6 @@ namespace ValHardMode
                     __instance.m_walkSpeed = __instance.m_walkSpeed * Configuration.Current.EikthyrMovementSpeedFactor;
                     __instance.m_runSpeed = __instance.m_runSpeed * Configuration.Current.EikthyrMovementSpeedFactor;
                     __instance.m_turnSpeed = __instance.m_turnSpeed * Configuration.Current.EikthyrMovementSpeedFactor;
-                }
-                else if (__instance.m_name == "$enemy_greyling" || __instance.m_name == "$enemy_greydwarf")
-                {
-                    __instance.m_walkSpeed = __instance.m_walkSpeed * Configuration.Current.GreydwarfMovementSpeedFactor;
-                    __instance.m_runSpeed = __instance.m_runSpeed * Configuration.Current.GreydwarfMovementSpeedFactor;
-                    __instance.m_turnSpeed = __instance.m_turnSpeed * Configuration.Current.GreydwarfMovementSpeedFactor;
                 }
             }
         }
