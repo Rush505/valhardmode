@@ -48,7 +48,7 @@ It is meant to run on a dedicated server and requires all players connecting to 
 ## Installation
 
 1. Backup your characters and worlds! Copy `C:\Users\<username>\AppData\LocalLow\IronGate\Valheim` somewhere safe just in case
-2. Install [BepInExPack Valheim](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/) on clients and server
+2. Install [BepInExPack Valheim](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/) (v5.4.602 or higher) on clients and server
 3. Download latest release and extract `ValHardMode.dll` to `...\BepInEx\plugins` folder created from previous step
 4. Enjoy!
 
