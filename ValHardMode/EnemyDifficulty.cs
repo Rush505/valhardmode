@@ -15,7 +15,13 @@ namespace ValHardMode
                 if (!__instance.IsBoss() && __instance.IsMonsterFaction())
                 {
                     __instance.SetMaxHealth(__instance.m_health * Game.instance.GetDifficultyHealthScale(((Component)__instance).transform.position) * (float)__instance.GetLevel());
-                    __instance.SetMaxHealth(__instance.GetMaxHealth() * 1.5f);
+                    __instance.SetMaxHealth(__instance.GetMaxHealth() * Configuration.Current.NonBossEnemyMaxHealthFactor);
+                }
+
+                if (__instance.IsBoss())
+                {
+                    __instance.SetMaxHealth(__instance.m_health * Game.instance.GetDifficultyHealthScale(((Component)__instance).transform.position) * (float)__instance.GetLevel());
+                    __instance.SetMaxHealth(__instance.GetMaxHealth() * Configuration.Current.BossMaxHealthFactor);
                 }
 
                 if (__instance.m_name == "$enemy_troll")
@@ -51,15 +57,14 @@ namespace ValHardMode
                     __instance.m_itemData.m_shared.m_attack.m_speedFactor = Configuration.Current.EikthyrAttackSpeedFactor;
                     __instance.m_itemData.m_shared.m_blockable = false;
                 }
-                else if (__instance.m_itemData.m_shared.m_name == "Greydwarf_attack")
+                else if (!__instance.m_itemData.m_shared.m_name.StartsWith("$item_"))
                 {
-                    __instance.m_itemData.m_shared.m_damages.m_lightning = __instance.m_itemData.m_shared.m_damages.m_lightning * Configuration.Current.GreydwarfAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_damage = __instance.m_itemData.m_shared.m_damages.m_damage * Configuration.Current.GreydwarfAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_chop = __instance.m_itemData.m_shared.m_damages.m_chop * Configuration.Current.GreydwarfAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_slash = __instance.m_itemData.m_shared.m_damages.m_slash * Configuration.Current.GreydwarfAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_blunt = __instance.m_itemData.m_shared.m_damages.m_blunt * Configuration.Current.GreydwarfAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_lightning = __instance.m_itemData.m_shared.m_damages.m_lightning * Configuration.Current.OtherEnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_damage = __instance.m_itemData.m_shared.m_damages.m_damage * Configuration.Current.OtherEnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_chop = __instance.m_itemData.m_shared.m_damages.m_chop * Configuration.Current.OtherEnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_slash = __instance.m_itemData.m_shared.m_damages.m_slash * Configuration.Current.OtherEnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_blunt = __instance.m_itemData.m_shared.m_damages.m_blunt * Configuration.Current.OtherEnemyAttackDamageFactor;
                     __instance.m_itemData.m_shared.m_attack.m_speedFactor = Configuration.Current.EikthyrAttackSpeedFactor;
-                    __instance.m_itemData.m_shared.m_blockable = false;
                 }
             }
         }
@@ -74,6 +79,7 @@ namespace ValHardMode
             if (Configuration.Current.IsEnabled)
             {
                 __instance.m_levelupChance = __instance.m_levelupChance * Configuration.Current.EnemyLevelUpChanceFactor;
+                __instance.m_maxTotal = __instance.m_maxTotal * Configuration.Current.EnemySpawnAmountFactor;
             }
         }
     }

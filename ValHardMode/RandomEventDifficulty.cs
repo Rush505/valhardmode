@@ -35,7 +35,7 @@ namespace ValHardMode
                 }
 
                 // Increase chance of happening
-                __instance.m_eventChance = __instance.m_eventChance * 2;
+                __instance.m_eventChance = __instance.m_eventChance * 4;
 
             }
         }

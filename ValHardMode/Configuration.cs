@@ -6,23 +6,32 @@ namespace ValHardMode
     {
         public static Configuration Current { get; set; }
 
-        public string Version = "0.0.5";
+        public string Version = "0.0.6";
         public bool IsEnabled { get; set; }
 
         public ConfigEntry<string> DeleteHotkey { get; set; }
 
+        public float CraftingStationBuildRangeFactor = 2f;
+
         // Enemies
         public float EnemyLevelUpChanceFactor = 4f;
+        public int EnemySpawnAmountFactor = 2;
+
         public int MaxLevelEnemyDrops = 1;
         public bool TamedDropNormalLoot = true;
+
         public float EnemyLevelSizeIncreaseFactor = .3f;
-        public float NonBossEnemyMaxHealthFactor = 1.5f;
-        public float TrollMovementSpeedFactor = 10f;
-        public float EikthyrMovementSpeedFactor = 30f;
-        public float EikthyrAttackSpeedFactor = 20f;
-        public float EikthyrAttackDamageFactor = 2f;
-        public float GreydwarfAttackDamageFactor = 2f;
-        public float GreydwarfMovementSpeedFactor = 10f;
+
+        public float NonBossEnemyMaxHealthFactor = 2f;
+        public float BossMaxHealthFactor = 1.5f;
+
+        public float TrollMovementSpeedFactor = 5f;
+
+        public float EikthyrMovementSpeedFactor = 5f;
+        public float EikthyrAttackSpeedFactor = 3f;
+        public float EikthyrAttackDamageFactor = 4f;
+
+        public float OtherEnemyAttackDamageFactor = 2f;
 
         // Recipes
         public RecipeOverride[] RecipeOverrides = new RecipeOverride[]
@@ -366,28 +375,6 @@ namespace ValHardMode
                         Name = "$item_tin",
                         Amount = 15,
 
-                    }
-                }
-            },
-            new PieceOverride()
-            {
-                Name = "$piece_forge",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 25
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_stone",
-                        Amount = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_copper",
-                        Amount = 10
                     }
                 }
             },

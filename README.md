@@ -10,6 +10,7 @@ It is meant to run on a dedicated server and requires all players connecting to 
 * Allow usage of items while swimming
 * Ability to delete items by picking them up and hitting DEL key (this is not reversible and there is no confirmation!)
 * Always enable DLC content
+* Increased build range of crafting stations
 
 #### Server Activated
 * Increases max stack size of stackable items
@@ -20,7 +21,7 @@ It is meant to run on a dedicated server and requires all players connecting to 
 ### Difficulty Increases
 
 #### Enemies
-* Increases normal enemy health
+* Increases all enemy health and attack damage
 * Double the chance for enemies to be a higher level
 * Limit higher level enemy drops
 * Increased size of level 2 and 3 enemies

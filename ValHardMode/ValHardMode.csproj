@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="ConsoleCommands.cs" />
     <Compile Include="CraftingAndBuildingCosts.cs" />
+    <Compile Include="CraftingStationBuildRange.cs" />
     <Compile Include="DisallowItemTeleportation.cs" />
     <Compile Include="BoatDamage.cs" />
     <Compile Include="EnemyDifficulty.cs" />
