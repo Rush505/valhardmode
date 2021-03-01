@@ -134,11 +134,11 @@ namespace ValHardMode
         private static bool Prefix(ref Character __instance, int ___m_level, ref int __result)
         {
             string callingMethod = (new System.Diagnostics.StackTrace()).GetFrame(2).GetMethod().Name;
-            if (!__instance.IsPlayer() && !__instance.IsBoss() && callingMethod == "GenerateDropList")
+            if (callingMethod == "GenerateDropList"
+                && !__instance.IsPlayer() 
+                && !__instance.IsBoss() 
+                && (!__instance.IsTamed() && !Configuration.Current.TamedDropNormalLoot))
             {
-                if (__instance.IsTamed() && Configuration.Current.TamedDropNormalLoot)
-                    return true;
-
                 ZLog.Log("Capping enemy drops to level " + Math.Min( ___m_level, Configuration.Current.MaxLevelEnemyDrops));
                 __result = Math.Min(___m_level, Configuration.Current.MaxLevelEnemyDrops);
                 return false; // Don't call underlying method

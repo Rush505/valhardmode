@@ -3,15 +3,14 @@
 namespace ValHardMode
 {
     [HarmonyPatch(typeof(Ship), "Awake")]
-    public static class BoatDamage
+    public static class ShipDamage
     {
         private static void Postfix(ref Ship __instance)
         {
             if (Configuration.Current.IsEnabled)
             {
-                // Increase ship damage take from waves and min frequency
-                __instance.m_minWaterImpactForce = __instance.m_minWaterImpactForce * .8f;
-                __instance.m_waterImpactDamage = __instance.m_waterImpactDamage * 2.5f;
+                // Increase ship damage take from waves and reduce min interval
+                __instance.m_waterImpactDamage = __instance.m_waterImpactDamage * 2f;
                 __instance.m_minWaterImpactInterval = __instance.m_minWaterImpactInterval * .5f;
 
                 // Increase upside down damage

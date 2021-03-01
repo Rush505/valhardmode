@@ -23,23 +23,26 @@ It is meant to run on a dedicated server and requires all players connecting to 
 #### Enemies
 * Increases all enemy health and attack damage
 * Double the chance for enemies to be a higher level
-* Limit higher level enemy drops
+* Limit higher level enemy drops (except tamed)
+* Increased spawn numbers
 * Increased size of level 2 and 3 enemies
-* Increased Eikthyr movement speed and special attack damage
+* Increased Eikthyr and Elder movement speed and special attack damage
 
 #### Items
 * Prevent most non-equippable/consumable items from being teleported
+* Lots of updates to crafting requirements
 
 #### Player
 * Reduce death skill penalty to only reset progress on current level
 
 #### Random Events
-* Increased duration, spawn amount and chance of random events
+* Increased potential frequency and duration
 * Enabled Skeleton & Troll events to happen at any time
 * Removed Surtling event
 
 #### General
 * Increased damage taken by ships from large waves
+* Ships now have a max weight and will being to sink if exceeding it
 
 ### Server Handshaking
 * Shared features will only load when connecting to a dedicated server with the same version installed

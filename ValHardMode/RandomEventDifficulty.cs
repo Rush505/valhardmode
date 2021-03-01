@@ -44,8 +44,8 @@ namespace ValHardMode
                 // Increase chance of happening
                 __instance.m_eventChance = Configuration.Current.RandomEventChance;
 
-                // Increase minimum time to happen
-                __instance.m_eventIntervalMin = Configuration.Current.RandomEventChance;
+                // Decrease minimum time to happen
+                __instance.m_eventIntervalMin = Configuration.Current.RandomEventMinInterval;
             }
         }
     }

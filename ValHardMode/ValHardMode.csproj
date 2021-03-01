@@ -81,17 +81,25 @@
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>..\Libs\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\Libs\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleCommands.cs" />
     <Compile Include="CraftingAndBuildingCosts.cs" />
     <Compile Include="CraftingStationBuildRange.cs" />
     <Compile Include="DisallowItemTeleportation.cs" />
-    <Compile Include="BoatDamage.cs" />
+    <Compile Include="ShipDamage.cs" />
     <Compile Include="EnemyDifficulty.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="RandomEventDifficulty.cs" />
     <Compile Include="ReducedDeathPenalty.cs" />
+    <Compile Include="ShipMaxWeight.cs" />
     <Compile Include="UnlimitedFireplaceFuel.cs" />
     <Compile Include="MaxItemStacks.cs" />
     <Compile Include="SmelterCapacity.cs" />

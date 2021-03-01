@@ -10,14 +10,20 @@ namespace ValHardMode
     {
         public static Configuration Current { get; set; }
 
-        public string Version = "0.0.6";
+        public string Version = "0.0.8";
         public bool IsEnabled { get; set; }
 
         public ConfigEntry<string> DeleteHotkey { get; set; }
 
         public float CraftingStationBuildRangeFactor = 2f;
 
-        public float RandomEventChance = 25f;
+        // Ship
+        public float KarveWeightMax = 1000;
+        public float LongshipWeightMax = 4000;
+
+        // Random Events
+        public float RandomEventChance = 20f;
+        public float RandomEventMinInterval = .5f;
         public List<string> RandomEventsToRemoveReqs = new List<string>()
         {
             "skeletons",
@@ -130,7 +136,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_boar",
                         Amount = 2,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }
@@ -150,7 +156,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_neck",
                         Amount = 2,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }
@@ -192,14 +198,14 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_neck",
                         Amount = 2,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     },
                     new OverrideReq()
                     {
                         Name = "$item_trophy_boar",
                         Amount = 2,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }
@@ -218,7 +224,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_boar",
                         Amount = 1,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     },
                     new OverrideReq()
@@ -249,7 +255,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_deer",
                         Amount = 2,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     },
                     new OverrideReq()
@@ -273,7 +279,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_deer",
                         Amount = 2,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     },
                     new OverrideReq()
@@ -297,7 +303,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_deer",
                         Amount = 1,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     },
                     new OverrideReq()
@@ -358,7 +364,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_greydwarfbrute",
                         Amount = 1,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }
@@ -390,7 +396,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_greydwarfbrute",
                         Amount = 1,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }
@@ -422,7 +428,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_greydwarfbrute",
                         Amount = 1,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }
@@ -486,7 +492,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_greydwarf",
                         Amount = 1,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }
@@ -512,7 +518,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_greydwarf",
                         Amount = 1,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }
@@ -538,7 +544,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_greydwarfshaman",
                         Amount = 1,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }
@@ -576,7 +582,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_deer",
                         Amount = 2,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }
@@ -727,7 +733,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_skeleton",
                         Amount = 2,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     },
                     new OverrideReq()
@@ -759,7 +765,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_skeleton",
                         Amount = 1,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     },
                     new OverrideReq()
@@ -791,7 +797,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_skeleton",
                         Amount = 1,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     },
                     new OverrideReq()
@@ -811,7 +817,7 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_dandelion",
-                        Amount = 10
+                        Amount = 5
                     }
                 }
             },
@@ -835,7 +841,9 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_dandelion",
-                        Amount = 10
+                        Amount = 5,
+                        AmountPerLevel = 1,
+                        Recover = true
                     }
                 }
             },
@@ -847,7 +855,9 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_dandelion",
-                        Amount = 10
+                        Amount = 10,
+                        AmountPerLevel = 1,
+                        Recover = true
                     }
                 }
             },
@@ -859,7 +869,9 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_dandelion",
-                        Amount = 10
+                        Amount = 5,
+                        AmountPerLevel = 1,
+                        Recover = true
                     }
                 }
             },
@@ -871,7 +883,9 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_dandelion",
-                        Amount = 2
+                        Amount = 2,
+                        AmountPerLevel = 1,
+                        Recover = true
                     }
                 }
             }
