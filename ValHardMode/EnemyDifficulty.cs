@@ -31,10 +31,26 @@ namespace ValHardMode
                     __instance.m_turnSpeed = __instance.m_turnSpeed * Configuration.Current.TrollMovementSpeedFactor;
                 }
                 else if (__instance.m_name == "$enemy_eikthyr")
-                { 
+                {
                     __instance.m_walkSpeed = __instance.m_walkSpeed * Configuration.Current.EikthyrMovementSpeedFactor;
                     __instance.m_runSpeed = __instance.m_runSpeed * Configuration.Current.EikthyrMovementSpeedFactor;
                     __instance.m_turnSpeed = __instance.m_turnSpeed * Configuration.Current.EikthyrMovementSpeedFactor;
+                }
+                else if (__instance.m_name == "$enemy_gdking")
+                {
+                    __instance.m_walkSpeed = Configuration.Current.ElderWalkSpeed;
+                    __instance.m_runSpeed = Configuration.Current.ElderRunSpeed;
+                    __instance.m_turnSpeed = Configuration.Current.ElderTurnSpeed;
+                    __instance.m_runTurnSpeed = Configuration.Current.ElderRunTurnSpeed;
+                    foreach (GameObject obj in __instance.m_defaultItems)
+                    {
+                        ItemDrop item = obj.GetComponent<ItemDrop>();
+                        item.m_itemData.m_shared.m_damages.m_lightning = item.m_itemData.m_shared.m_damages.m_lightning * Configuration.Current.ElderAttackDamageFactor;
+                        item.m_itemData.m_shared.m_damages.m_damage = item.m_itemData.m_shared.m_damages.m_damage * Configuration.Current.ElderAttackDamageFactor;
+                        item.m_itemData.m_shared.m_damages.m_chop = item.m_itemData.m_shared.m_damages.m_chop * Configuration.Current.ElderAttackDamageFactor;
+                        item.m_itemData.m_shared.m_damages.m_slash = item.m_itemData.m_shared.m_damages.m_slash * Configuration.Current.ElderAttackDamageFactor;
+                        item.m_itemData.m_shared.m_damages.m_blunt = item.m_itemData.m_shared.m_damages.m_blunt * Configuration.Current.ElderAttackDamageFactor;
+                    }
                 }
             }
         }
@@ -59,13 +75,26 @@ namespace ValHardMode
                 }
                 else if (!__instance.m_itemData.m_shared.m_name.StartsWith("$item_"))
                 {
-                    __instance.m_itemData.m_shared.m_damages.m_lightning = __instance.m_itemData.m_shared.m_damages.m_lightning * Configuration.Current.OtherEnemyAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_damage = __instance.m_itemData.m_shared.m_damages.m_damage * Configuration.Current.OtherEnemyAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_chop = __instance.m_itemData.m_shared.m_damages.m_chop * Configuration.Current.OtherEnemyAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_slash = __instance.m_itemData.m_shared.m_damages.m_slash * Configuration.Current.OtherEnemyAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_blunt = __instance.m_itemData.m_shared.m_damages.m_blunt * Configuration.Current.OtherEnemyAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_attack.m_speedFactor = Configuration.Current.EikthyrAttackSpeedFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_lightning = __instance.m_itemData.m_shared.m_damages.m_lightning * Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_damage = __instance.m_itemData.m_shared.m_damages.m_damage * Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_chop = __instance.m_itemData.m_shared.m_damages.m_chop * Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_slash = __instance.m_itemData.m_shared.m_damages.m_slash * Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_blunt = __instance.m_itemData.m_shared.m_damages.m_blunt * Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_attack.m_speedFactor = Configuration.Current.EnemyAttackSpeedFactor;
+                    __instance.m_itemData.m_shared.m_aiAttackInterval = __instance.m_itemData.m_shared.m_aiAttackInterval * Configuration.Current.EnemyAttackIntervalFactor;
                 }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(MonsterAI), "Awake")]
+    public static class EnemyAI
+    {
+        private static void Postfix(ref MonsterAI __instance)
+        {
+            if (Configuration.Current.IsEnabled)
+            {
+                __instance.m_minAttackInterval = Configuration.Current.EnemyAttackMinInterval;
             }
         }
     }

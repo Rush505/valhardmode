@@ -8,8 +8,6 @@ namespace ValHardMode
     [BepInPlugin("org.remmiz.plugins.valhardmode", "ValHardMode", "0.0.6.0")]
     public class ValHardMode : BaseUnityPlugin
     {
-
-        // Awake is called once when both the game and the plug-in are loaded
         void Awake()
         {
             Configuration.Current = new Configuration();

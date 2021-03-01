@@ -11,20 +11,9 @@ namespace ValHardMode
     {
         private static void Postfix()
         {
-            // Cache item drops for materials
-            var uniqueReqs = Configuration.Current.PieceOverrides.SelectMany(x => x.Requirements).Select(y => y.Name).Distinct().ToList();
-            SharedItems.AllItems.Clear();
-            foreach (GameObject gameObject in ObjectDB.instance.m_items)
+            if (Configuration.Current.IsEnabled)
             {
-                ItemDrop component = gameObject.GetComponent<ItemDrop>();
-                if (uniqueReqs.Contains(component.m_itemData.m_shared.m_name))
-                {
-                    SharedItems.AllItems.Add(new SharedItems.CachedItem()
-                    {
-                        Name = component.m_itemData.m_shared.m_name,
-                        GameItemDrop = component
-                    });
-                }
+                UpdateReqs.UpdateRecipes(ObjectDB.instance);
             }
         }
     }
@@ -32,26 +21,11 @@ namespace ValHardMode
     [HarmonyPatch(typeof(ObjectDB), "CopyOtherDB")]
     public static class RecipePatchCopyOtherDB
     {
-        private static void Postfix(ref List<Recipe> ___m_recipes)
+        private static void Postfix(ref ObjectDB __instance)
         {
             if (Configuration.Current.IsEnabled)
             {
-                // Update recipe requirements
-                foreach (Recipe recipe in ___m_recipes)
-                {
-                    if (recipe.m_item == null)
-                        continue;
-
-                    foreach (Configuration.RecipeOverride recipeOverride in Configuration.Current.RecipeOverrides)
-                    {
-                        if (recipe.name == recipeOverride.Name)
-                        {
-                            ZLog.Log("Attempting to modify recipe: " + recipeOverride.Name);
-                            recipe.m_resources = UpdateReqs.Update(recipe.m_resources, recipeOverride.Requirements);
-                            break;
-                        }
-                    }
-                }
+                UpdateReqs.UpdateRecipes(__instance);
             }
         }
     }
@@ -63,21 +37,7 @@ namespace ValHardMode
         {
             if (Configuration.Current.IsEnabled)
             {
-                // Update recipe requirements
-                foreach (Recipe recipe in ObjectDB.instance.m_recipes)
-                {
-                    if (recipe.m_item == null)
-                        continue;
-
-                    foreach (Configuration.RecipeOverride recipeOverride in Configuration.Current.RecipeOverrides)
-                    {
-                        if (recipe.name == recipeOverride.Name)
-                        {
-                            ZLog.Log("Attempting to modify recipe: " + recipeOverride.Name);
-                            recipe.m_resources = UpdateReqs.Update(recipe.m_resources, recipeOverride.Requirements);
-                        }
-                    }
-                }
+                UpdateReqs.UpdateRecipes(ObjectDB.instance);
             }
         }
     }
@@ -103,12 +63,12 @@ namespace ValHardMode
         }
     }
 
-    public static class ForceUpdateReqs
+    public static class UpdateReqs
     {
-        public static void Update()
+        public static void UpdateRecipes(ObjectDB objDB)
         {
             // Update recipe requirements
-            foreach (Recipe recipe in ObjectDB.instance.m_recipes)
+            foreach (Recipe recipe in objDB.m_recipes)
             {
                 if (recipe.m_item == null)
                     continue;
@@ -123,10 +83,7 @@ namespace ValHardMode
                 }
             }
         }
-    }
 
-    public static class UpdateReqs
-    {
         public static Piece.Requirement[] Update(Piece.Requirement[] originalReqs, Configuration.OverrideReq[] overrideReqs)
         {
             List<Configuration.OverrideReq> updatedReqs = new List<Configuration.OverrideReq>();
@@ -134,43 +91,62 @@ namespace ValHardMode
 
             foreach (Piece.Requirement req in originalReqs)
             {
+                bool remove = false;
                 foreach (Configuration.OverrideReq reqOverride in overrideReqs)
                 {
                     // Update exisiting requirement values
                     if (req.m_resItem.m_itemData.m_shared.m_name == reqOverride.Name)
                     {
-                        ZLog.Log("Updating requirement: " + reqOverride.Name);
-                        if (reqOverride.AmountIsSet)
-                            req.m_amount = reqOverride.Amount;
-                        if (reqOverride.AmountPerLevelIsSet)
-                            req.m_amountPerLevel = reqOverride.AmountPerLevel;
-                        if (reqOverride.RecoverIsSet)
-                            req.m_recover = reqOverride.Recover;
+                        if (reqOverride.Remove)
+                        {
+                            ZLog.Log("Marking requirement to remove: " + reqOverride.Name);
+                            remove = true;
+                        }
+                        else
+                        {
+                            ZLog.Log("Updating requirement: " + reqOverride.Name);
+                            if (reqOverride.AmountIsSet)
+                                req.m_amount = reqOverride.Amount;
+                            if (reqOverride.AmountPerLevelIsSet)
+                                req.m_amountPerLevel = reqOverride.AmountPerLevel;
+                            if (reqOverride.RecoverIsSet)
+                                req.m_recover = reqOverride.Recover;
+                        }
+
                         updatedReqs.Add(reqOverride);
                         break;
                     }
                 }
 
-                newReqs.Add(req);
+                if (!remove)
+                    newReqs.Add(req);
             }
 
-            if (updatedReqs.Count != overrideReqs.Length)
+            if (overrideReqs.Length != updatedReqs.Count)
             {
-                ZLog.Log("Adding new requirements");
+                ZLog.Log($"Adding {Math.Abs(overrideReqs.Length - updatedReqs.Count)} new requirements");
                 foreach (Configuration.OverrideReq reqOverride in overrideReqs)
                 {
-                    if (!updatedReqs.Contains(reqOverride)
-                        && reqOverride.AmountIsSet && reqOverride.AmountPerLevelIsSet && reqOverride.RecoverIsSet && !String.IsNullOrEmpty(reqOverride.Name)
-                        && SharedItems.AllItems.Where(x => x.Name == reqOverride.Name).Count() > 0)
+                    ItemDrop item = ObjectDBWrapper.GetItem(reqOverride.Name);
+                    if (item == null)
+                    {
+                        ZLog.LogWarning("Did not find requirement item: " + reqOverride.Name);
+                    }
+                    else if (!updatedReqs.Contains(reqOverride)
+                        && !reqOverride.Remove
+                        && reqOverride.AmountIsSet 
+                        && reqOverride.AmountPerLevelIsSet 
+                        && reqOverride.RecoverIsSet 
+                        && !String.IsNullOrEmpty(reqOverride.Name))
                     {
                         // Create new requirement
-                        ZLog.Log("Adding requirement: " + reqOverride.Name);
+                        ZLog.Log("Adding requirement: " + reqOverride.Amount + " " + reqOverride.Name);
                         newReqs.Add(new Piece.Requirement()
                         {
                             m_amount = reqOverride.Amount,
                             m_amountPerLevel = reqOverride.AmountPerLevel,
                             m_recover = reqOverride.Recover,
-                            m_resItem = SharedItems.AllItems.Where(x => x.Name == reqOverride.Name).First().GameItemDrop
+                            m_resItem = item
                         });
                     }
                 }
@@ -180,14 +156,17 @@ namespace ValHardMode
         }
     }
 
-    public static class SharedItems
+    public static class ObjectDBWrapper
     {
-        public static List<CachedItem> AllItems = new List<CachedItem>();
-
-        public class CachedItem
+        public static ItemDrop GetItem(string name)
         {
-            public string Name;
-            public ItemDrop GameItemDrop;
+            foreach (GameObject gameObject in ObjectDB.instance.m_items)
+            {
+                ItemDrop component = gameObject.GetComponent<ItemDrop>();
+                if (component.m_itemData.m_shared.m_name == name)
+                    return component;
+            }
+            return null;
         }
     }
 }
