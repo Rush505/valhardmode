@@ -6,17 +6,11 @@ It is meant to run on a dedicated server and requires all players connecting to 
 ## Current Features
 
 ### Quality of Life
-#### Always On
-* Allow usage of items while swimming
-* Ability to delete items by picking them up and hitting DEL key (this is not reversible and there is no confirmation!)
-* Always enable DLC content
-* Increased build range of crafting stations
-
-#### Server Activated
+* Reduce death skill penalty to only reset progress on current level
 * Increases max stack size of stackable items
 * Increases max capacity of Smelter-like objects
 * Fireplace-type objects don't consume fuel
-* Increased crafting station use range
+* Increased build range of crafting stations
 
 ### Difficulty Increases
 
@@ -24,23 +18,22 @@ It is meant to run on a dedicated server and requires all players connecting to 
 * Increases all enemy health and attack damage
 * Double the chance for enemies to be a higher level
 * Limit higher level enemy drops (except tamed)
-* Increased spawn numbers
+* Increased overall group spawn numbers
 * Increased size of level 2 and 3 enemies
+
+#### Bosses
 * Increased Eikthyr and Elder movement speed and special attack damage
 
 #### Items
 * Prevent most non-equippable/consumable items from being teleported
 * Lots of updates to crafting requirements
 
-#### Player
-* Reduce death skill penalty to only reset progress on current level
-
 #### Random Events
 * Increased potential frequency and duration
 * Enabled Skeleton & Troll events to happen at any time
 * Removed Surtling event
 
-#### General
+#### Ships
 * Increased damage taken by ships from large waves
 * Ships now have a max weight and will being to sink if exceeding it
 

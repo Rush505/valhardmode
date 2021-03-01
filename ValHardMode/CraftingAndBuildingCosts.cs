@@ -54,7 +54,6 @@ namespace ValHardMode
                 {
                     if (__result.m_name == craftOverride.Name)
                     {
-                        ZLog.Log("Attempting to modify piece: " + craftOverride.Name);
                         __result.m_resources = UpdateReqs.Update(__result.m_resources, craftOverride.Requirements);
                         break;
                     }
@@ -73,11 +72,16 @@ namespace ValHardMode
                 if (recipe.m_item == null)
                     continue;
 
+                if (recipe.name == "Recipe_SwordFire")
+                {
+                    recipe.m_enabled = true;
+                    recipe.m_minStationLevel = 4;
+                }
+
                 foreach (Configuration.RecipeOverride recipeOverride in Configuration.Current.RecipeOverrides)
                 {
                     if (recipe.name == recipeOverride.Name)
                     {
-                        ZLog.Log("Attempting to modify recipe: " + recipeOverride.Name);
                         recipe.m_resources = UpdateReqs.Update(recipe.m_resources, recipeOverride.Requirements);
                     }
                 }
@@ -99,12 +103,10 @@ namespace ValHardMode
                     {
                         if (reqOverride.Remove)
                         {
-                            ZLog.Log("Marking requirement to remove: " + reqOverride.Name);
                             remove = true;
                         }
                         else
                         {
-                            ZLog.Log("Updating requirement: " + reqOverride.Name);
                             if (reqOverride.AmountIsSet)
                                 req.m_amount = reqOverride.Amount;
                             if (reqOverride.AmountPerLevelIsSet)
@@ -124,7 +126,6 @@ namespace ValHardMode
 
             if (overrideReqs.Length != updatedReqs.Count)
             {
-                ZLog.Log($"Adding {Math.Abs(overrideReqs.Length - updatedReqs.Count)} new requirements");
                 foreach (Configuration.OverrideReq reqOverride in overrideReqs)
                 {
                     ItemDrop item = ObjectDBWrapper.GetItem(reqOverride.Name);
@@ -140,7 +141,6 @@ namespace ValHardMode
                         && !String.IsNullOrEmpty(reqOverride.Name))
                     {
                         // Create new requirement
-                        ZLog.Log("Adding requirement: " + reqOverride.Amount + " " + reqOverride.Name);
                         newReqs.Add(new Piece.Requirement()
                         {
                             m_amount = reqOverride.Amount,
