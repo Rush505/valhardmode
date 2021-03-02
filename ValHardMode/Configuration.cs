@@ -7,7 +7,7 @@ namespace ValHardMode
     {
         public static Configuration Current { get; set; }
 
-        public string Version = "0.0.8";
+        public string Version = "0.0.10";
         public bool IsEnabled { get; set; }
 
         public ConfigEntry<string> DeleteHotkey { get; set; }

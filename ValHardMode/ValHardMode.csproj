@@ -94,6 +94,7 @@
     <Compile Include="CraftingAndBuildingCosts.cs" />
     <Compile Include="CraftingStationBuildRange.cs" />
     <Compile Include="DisallowItemTeleportation.cs" />
+    <Compile Include="DropRateOverrides.cs" />
     <Compile Include="ShipDamage.cs" />
     <Compile Include="EnemyDifficulty.cs" />
     <Compile Include="Configuration.cs" />

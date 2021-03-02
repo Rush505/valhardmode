@@ -5,7 +5,7 @@ using HarmonyLib;
 
 namespace ValHardMode
 {
-    [BepInPlugin("org.remmiz.plugins.valhardmode", "ValHardMode", "0.0.8.0")]
+    [BepInPlugin("org.remmiz.plugins.valhardmode", "ValHardMode", "0.0.10.0")]
     public class ValHardMode : BaseUnityPlugin
     {
         void Awake()
