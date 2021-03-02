@@ -20,6 +20,8 @@ It is meant to run on a dedicated server and requires all players connecting to 
 * Limit higher level enemy drops (except tamed)
 * Increased overall group spawn numbers
 * Increased size of level 2 and 3 enemies
+* Removed any fear of fire
+* Updates to certain drop rates
 
 #### Bosses
 * Increased Eikthyr and Elder movement speed and special attack damage
@@ -35,7 +37,7 @@ It is meant to run on a dedicated server and requires all players connecting to 
 
 #### Ships
 * Increased damage taken by ships from large waves
-* Ships now have a max weight and will being to sink if exceeding it
+* Ships now have a max weight and will begin to sink if it is exceeded
 
 ### Server Handshaking
 * Shared features will only load when connecting to a dedicated server with the same version installed

@@ -13,8 +13,6 @@ namespace ValHardMode
             Configuration.Current = new Configuration();
             Configuration.Current.IsEnabled = false;
 
-            Configuration.Current.DeleteHotkey = Config.Bind<string>("General", "DiscardHotkey", "delete", "The hotkey to discard an item");
-
             string gitRepo = "https://github.com/remmizekim/valhardmode";
             string gitApiRepo = "https://api.github.com/repos/remmizekim/valhardmode/tags";
 

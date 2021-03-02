@@ -10,13 +10,17 @@ namespace ValHardMode
         public string Version = "0.0.10";
         public bool IsEnabled { get; set; }
 
-        public ConfigEntry<string> DeleteHotkey { get; set; }
+        public int DataRateOverride = 250;
 
+        // General
         public float CraftingStationBuildRangeFactor = 2f;
 
         // Ship
         public float KarveWeightMax = 1000;
         public float LongshipWeightMax = 4000;
+        public float ShipWaterImpactDamageFactor = 2.5f;
+        public float ShipWaterImpactIntervalFactor = .5f;
+        public float ShipUpsideDownDamageFactor = 2.5f;
 
         // Random Events
         public float RandomEventChance = 20f;
@@ -33,14 +37,17 @@ namespace ValHardMode
         };
 
         // Enemies
-        public float EnemyLevelUpChanceFactor = 4f;
         public int EnemySpawnAmountFactor = 2;
 
-        public int MaxLevelEnemyDrops = 1;
-        public bool TamedDropNormalLoot = true;
+        public float EnemyLevelUpChanceFactor = 4f;
+        public float EnemyLevelSizeIncreaseFactor = .1f;
 
-        public float EnemyLevelSizeIncreaseFactor = .3f;
-        public float EnemyLevelSizeIncreaseFactorIndoors = .1f;
+        public float EnemyAttackDamageFactor = 2f;
+        public float EnemyAttackIntervalFactor = .5f;
+        public float EnemyAttackSpeedFactor = .5f;
+        public float EnemyAttackMinIntervalFactor = .5f;
+
+        public bool RemoveEnemyFireAvoid = true;
 
         public float NonBossEnemyMaxHealthFactor = 2.5f;
         public float BossMaxHealthFactor = 1.5f;
@@ -55,10 +62,37 @@ namespace ValHardMode
         public float ElderTurnSpeed = 200f;
         public float ElderRunTurnSpeed = 300f;
 
-        public float EnemyAttackDamageFactor = 2f;
-        public float EnemyAttackIntervalFactor = .5f;
-        public float EnemyAttackSpeedFactor = .1f;
-        public float EnemyAttackMinInterval = 1;
+        // Enemy drops
+        public int MaxLevelEnemyDrops = 1;
+        public bool TamedDropNormalLoot = true;
+
+        public EnemyDropOverride[] EnemyDropOverrides = new EnemyDropOverride[]
+        {
+            new EnemyDropOverride()
+            {
+                Name = "$enemy_draugrelite",
+                Drops = new DropOverride[]
+                {
+                    new DropOverride()
+                    {
+                        ItemName = "$item_trophy_draugrelite",
+                        Chance = .3f
+                    }
+                }
+            },
+            new EnemyDropOverride()
+            {
+                Name = "$enemy_greydwarfbrute",
+                Drops = new DropOverride[]
+                {
+                    new DropOverride()
+                    {
+                        ItemName = "$item_trophy_greydwarfbrute",
+                        Chance = .3f
+                    }
+                }
+            }
+        };
 
         // Recipes
         public RecipeOverride[] RecipeOverrides = new RecipeOverride[]
@@ -129,7 +163,7 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_trophy_boar",
-                        Amount = 2,
+                        Amount = 1,
                         AmountPerLevel = 0,
                         Recover = true
                     }
@@ -149,7 +183,7 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_trophy_neck",
-                        Amount = 2,
+                        Amount = 1,
                         AmountPerLevel = 0,
                         Recover = true
                     }
@@ -190,15 +224,8 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_neck",
-                        Amount = 2,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    },
-                    new OverrideReq()
-                    {
                         Name = "$item_trophy_boar",
-                        Amount = 2,
+                        Amount = 1,
                         AmountPerLevel = 0,
                         Recover = true
                     }
@@ -596,7 +623,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_troll",
                         Amount = 1,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     },
                     new OverrideReq()
@@ -623,7 +650,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_troll",
                         Amount = 1,
-                        AmountPerLevel = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     },
                     new OverrideReq()
@@ -649,15 +676,15 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_trophy_troll",
-                        Amount = 2,
-                        AmountPerLevel = 1,
+                        Amount = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     },
                     new OverrideReq()
                     {
                         Name = "$item_bonefragments",
-                        Amount = 15,
-                        AmountPerLevel = 8
+                        Amount = 10,
+                        AmountPerLevel = 4
                     }
                 }
             },
@@ -1719,6 +1746,88 @@ namespace ValHardMode
                 {
                     m_recover = value;
                     RecoverIsSet = true;
+                }
+            }
+            public bool Remove = false;
+        }
+
+        public class EnemyDropOverride
+        {
+            public string Name;
+            public DropOverride[] Drops;
+        }
+
+        public class DropOverride
+        {
+            public string ItemName;
+            private int m_amountMin;
+            public bool AmountMinIsSet = false;
+            public int AmountMin
+            {
+                get
+                {
+                    return m_amountMin;
+                }
+                set
+                {
+                    m_amountMin = value;
+                    AmountMinIsSet = true;
+                }
+            }
+            private int m_amountMax;
+            public bool AmountMaxIsSet = false;
+            public int AmountMax
+            {
+                get
+                {
+                    return m_amountMax;
+                }
+                set
+                {
+                    m_amountMax = value;
+                    AmountMaxIsSet = true;
+                }
+            }
+            private float m_chance;
+            public bool ChanceIsSet = false;
+            public float Chance
+            {
+                get
+                {
+                    return m_chance;
+                }
+                set
+                {
+                    m_chance = value;
+                    ChanceIsSet = true;
+                }
+            }
+            private bool m_onePerPlayer;
+            public bool OnePerPlayerIsSet = false;
+            public bool OnePerPlayer
+            {
+                get
+                {
+                    return m_onePerPlayer;
+                }
+                set
+                {
+                    m_onePerPlayer = value;
+                    OnePerPlayerIsSet = true;
+                }
+            }
+            private bool m_levelMultiplier;
+            public bool LevelMultiplierIsSet = false;
+            public bool LevelMultiplier
+            {
+                get
+                {
+                    return m_levelMultiplier;
+                }
+                set
+                {
+                    m_levelMultiplier = value;
+                    LevelMultiplierIsSet = true;
                 }
             }
             public bool Remove = false;

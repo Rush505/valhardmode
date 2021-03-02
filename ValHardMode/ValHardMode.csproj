@@ -93,14 +93,17 @@
     <Compile Include="ConsoleCommands.cs" />
     <Compile Include="CraftingAndBuildingCosts.cs" />
     <Compile Include="CraftingStationBuildRange.cs" />
+    <Compile Include="DataRateFix.cs" />
     <Compile Include="DisallowItemTeleportation.cs" />
     <Compile Include="DropRateOverrides.cs" />
+    <Compile Include="ObjectDBWrapper.cs" />
     <Compile Include="ShipDamage.cs" />
     <Compile Include="EnemyDifficulty.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="RandomEventDifficulty.cs" />
     <Compile Include="ReducedDeathPenalty.cs" />
     <Compile Include="ShipMaxWeight.cs" />
+    <Compile Include="UnarmedSkillBasedDamage.cs" />
     <Compile Include="UnlimitedFireplaceFuel.cs" />
     <Compile Include="MaxItemStacks.cs" />
     <Compile Include="SmelterCapacity.cs" />

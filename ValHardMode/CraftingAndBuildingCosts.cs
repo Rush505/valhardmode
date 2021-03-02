@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 namespace ValHardMode
 {
@@ -131,9 +130,11 @@ namespace ValHardMode
                     ItemDrop item = ObjectDBWrapper.GetItem(reqOverride.Name);
                     if (item == null)
                     {
-                        ZLog.LogWarning("Did not find requirement item: " + reqOverride.Name);
+                        ZLog.LogWarning("Did not find requirement item for override: " + reqOverride.Name);
+                        break;
                     }
-                    else if (!updatedReqs.Contains(reqOverride)
+
+                    if (!updatedReqs.Contains(reqOverride)
                         && !reqOverride.Remove
                         && reqOverride.AmountIsSet 
                         && reqOverride.AmountPerLevelIsSet 
@@ -153,20 +154,6 @@ namespace ValHardMode
             }
 
             return newReqs.ToArray();
-        }
-    }
-
-    public static class ObjectDBWrapper
-    {
-        public static ItemDrop GetItem(string name)
-        {
-            foreach (GameObject gameObject in ObjectDB.instance.m_items)
-            {
-                ItemDrop component = gameObject.GetComponent<ItemDrop>();
-                if (component.m_itemData.m_shared.m_name == name)
-                    return component;
-            }
-            return null;
         }
     }
 }

@@ -12,32 +12,35 @@ namespace ValHardMode
         {
             if (Configuration.Current.IsEnabled)
             {
+                // Increase normal enemy health
                 if (!__instance.IsBoss() && __instance.IsMonsterFaction())
                 {
-                    __instance.SetMaxHealth(__instance.m_health * Game.instance.GetDifficultyHealthScale(((Component)__instance).transform.position) * (float)__instance.GetLevel());
-                    __instance.SetMaxHealth(__instance.GetMaxHealth() * Configuration.Current.NonBossEnemyMaxHealthFactor);
+                    __instance.SetMaxHealth(__instance.m_health * Game.instance.GetDifficultyHealthScale(((Component)__instance).transform.position) * (float)__instance.GetLevel() * Configuration.Current.NonBossEnemyMaxHealthFactor);
                 }
 
+                // Increase boss health
                 if (__instance.IsBoss())
                 {
-                    __instance.SetMaxHealth(__instance.m_health * Game.instance.GetDifficultyHealthScale(((Component)__instance).transform.position) * (float)__instance.GetLevel());
-                    __instance.SetMaxHealth(__instance.GetMaxHealth() * Configuration.Current.BossMaxHealthFactor);
+                    __instance.SetMaxHealth(__instance.m_health * Game.instance.GetDifficultyHealthScale(((Component)__instance).transform.position) * (float)__instance.GetLevel() * Configuration.Current.BossMaxHealthFactor);
                 }
-
+                
                 if (__instance.m_name == "$enemy_troll")
                 {
+                    // Troll speed changes
                     __instance.m_walkSpeed = __instance.m_walkSpeed * Configuration.Current.TrollMovementSpeedFactor;
                     __instance.m_runSpeed = __instance.m_runSpeed * Configuration.Current.TrollMovementSpeedFactor;
                     __instance.m_turnSpeed = __instance.m_turnSpeed * Configuration.Current.TrollMovementSpeedFactor;
                 }
                 else if (__instance.m_name == "$enemy_eikthyr")
                 {
+                    // Eikthyr speed changes
                     __instance.m_walkSpeed = __instance.m_walkSpeed * Configuration.Current.EikthyrMovementSpeedFactor;
                     __instance.m_runSpeed = __instance.m_runSpeed * Configuration.Current.EikthyrMovementSpeedFactor;
                     __instance.m_turnSpeed = __instance.m_turnSpeed * Configuration.Current.EikthyrMovementSpeedFactor;
                 }
                 else if (__instance.m_name == "$enemy_gdking")
                 {
+                    // Elder speed changes
                     __instance.m_walkSpeed = Configuration.Current.ElderWalkSpeed;
                     __instance.m_runSpeed = Configuration.Current.ElderRunSpeed;
                     __instance.m_turnSpeed = Configuration.Current.ElderTurnSpeed;
@@ -56,8 +59,10 @@ namespace ValHardMode
             {
                 if (!__instance.m_itemData.m_shared.m_name.StartsWith("$item_"))
                 {
-                    // Increase all non-player abilities
+                    // Increase all enemy damage
                     __instance.m_itemData.m_shared.m_damages.m_lightning = __instance.m_itemData.m_shared.m_damages.m_lightning * Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_fire = __instance.m_itemData.m_shared.m_damages.m_fire * Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_spirit = __instance.m_itemData.m_shared.m_damages.m_spirit * Configuration.Current.EnemyAttackDamageFactor;
                     __instance.m_itemData.m_shared.m_damages.m_damage = __instance.m_itemData.m_shared.m_damages.m_damage * Configuration.Current.EnemyAttackDamageFactor;
                     __instance.m_itemData.m_shared.m_damages.m_chop = __instance.m_itemData.m_shared.m_damages.m_chop * Configuration.Current.EnemyAttackDamageFactor;
                     __instance.m_itemData.m_shared.m_damages.m_slash = __instance.m_itemData.m_shared.m_damages.m_slash * Configuration.Current.EnemyAttackDamageFactor;
@@ -76,7 +81,8 @@ namespace ValHardMode
         {
             if (Configuration.Current.IsEnabled)
             {
-                __instance.m_minAttackInterval = Configuration.Current.EnemyAttackMinInterval;
+                // Enemy minimum attack
+                __instance.m_minAttackInterval = __instance.m_minAttackInterval * Configuration.Current.EnemyAttackMinIntervalFactor;
             }
         }
     }
@@ -86,9 +92,9 @@ namespace ValHardMode
     {
         private static void Postfix(ref SpawnArea __instance)
         {
-            // Increase the chance for higher level mobs
             if (Configuration.Current.IsEnabled)
             {
+                // Increase the chance for higher level mobs
                 __instance.m_levelupChance = __instance.m_levelupChance * Configuration.Current.EnemyLevelUpChanceFactor;
                 __instance.m_maxTotal = __instance.m_maxTotal * Configuration.Current.EnemySpawnAmountFactor;
             }
@@ -102,6 +108,7 @@ namespace ValHardMode
         {
             if (Configuration.Current.IsEnabled)
             {
+                // Increase size of higher level mobs
                 if (level <= 1 || __instance.m_levelSetups.Count < level - 1)
                     return;
 
@@ -110,23 +117,16 @@ namespace ValHardMode
         }
     }
 
-    [HarmonyPatch(typeof(Character), "GetLevel")]
-    public static class CapEnemyLootLevel
+    [HarmonyPatch(typeof(BaseAI), "Awake")]
+    public static class RemoveFearOfFire
     {
-        private static bool Prefix(ref Character __instance, int ___m_level, ref int __result)
+        private static void Postfix(ref BaseAI __instance)
         {
-            string callingMethod = (new System.Diagnostics.StackTrace()).GetFrame(2).GetMethod().Name;
-            if (callingMethod == "GenerateDropList"
-                && !__instance.IsPlayer() 
-                && !__instance.IsBoss() 
-                && (!__instance.IsTamed() && !Configuration.Current.TamedDropNormalLoot))
+            if (Configuration.Current.IsEnabled && Configuration.Current.RemoveEnemyFireAvoid)
             {
-                ZLog.Log("Capping enemy drops to level " + Math.Min( ___m_level, Configuration.Current.MaxLevelEnemyDrops));
-                __result = Math.Min(___m_level, Configuration.Current.MaxLevelEnemyDrops);
-                return false; // Don't call underlying method
+                __instance.m_afraidOfFire = false;
+                __instance.m_avoidFire = false;
             }
-
-            return true;
         }
     }
 }
