@@ -10,8 +10,8 @@ namespace ValHardMode
             if (Configuration.Current.IsEnabled)
             {
                 // Increase ship damage take from waves and reduce min interval
-                __instance.m_waterImpactDamage = __instance.m_waterImpactDamage * 2f;
-                __instance.m_minWaterImpactInterval = __instance.m_minWaterImpactInterval * .5f;
+                __instance.m_waterImpactDamage = __instance.m_waterImpactDamage * 3f;
+                __instance.m_minWaterImpactInterval = __instance.m_minWaterImpactInterval * .1f;
 
                 // Increase upside down damage
                 __instance.m_upsideDownDmg = __instance.m_upsideDownDmg * 2.5f;

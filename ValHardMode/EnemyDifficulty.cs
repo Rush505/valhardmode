@@ -42,15 +42,6 @@ namespace ValHardMode
                     __instance.m_runSpeed = Configuration.Current.ElderRunSpeed;
                     __instance.m_turnSpeed = Configuration.Current.ElderTurnSpeed;
                     __instance.m_runTurnSpeed = Configuration.Current.ElderRunTurnSpeed;
-                    foreach (GameObject obj in __instance.m_defaultItems)
-                    {
-                        ItemDrop item = obj.GetComponent<ItemDrop>();
-                        item.m_itemData.m_shared.m_damages.m_lightning = item.m_itemData.m_shared.m_damages.m_lightning * Configuration.Current.ElderAttackDamageFactor;
-                        item.m_itemData.m_shared.m_damages.m_damage = item.m_itemData.m_shared.m_damages.m_damage * Configuration.Current.ElderAttackDamageFactor;
-                        item.m_itemData.m_shared.m_damages.m_chop = item.m_itemData.m_shared.m_damages.m_chop * Configuration.Current.ElderAttackDamageFactor;
-                        item.m_itemData.m_shared.m_damages.m_slash = item.m_itemData.m_shared.m_damages.m_slash * Configuration.Current.ElderAttackDamageFactor;
-                        item.m_itemData.m_shared.m_damages.m_blunt = item.m_itemData.m_shared.m_damages.m_blunt * Configuration.Current.ElderAttackDamageFactor;
-                    }
                 }
             }
         }
@@ -63,18 +54,9 @@ namespace ValHardMode
         {
             if (Configuration.Current.IsEnabled)
             {
-                if (__instance.m_itemData.m_shared.m_name == "StagAttack1" || __instance.m_itemData.m_shared.m_name == "StagAttack2")
+                if (!__instance.m_itemData.m_shared.m_name.StartsWith("$item_"))
                 {
-                    __instance.m_itemData.m_shared.m_damages.m_lightning = __instance.m_itemData.m_shared.m_damages.m_lightning * Configuration.Current.EikthyrAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_damage = __instance.m_itemData.m_shared.m_damages.m_damage * Configuration.Current.EikthyrAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_chop = __instance.m_itemData.m_shared.m_damages.m_chop * Configuration.Current.EikthyrAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_slash = __instance.m_itemData.m_shared.m_damages.m_slash * Configuration.Current.EikthyrAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_blunt = __instance.m_itemData.m_shared.m_damages.m_blunt * Configuration.Current.EikthyrAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_attack.m_speedFactor = Configuration.Current.EikthyrAttackSpeedFactor;
-                    __instance.m_itemData.m_shared.m_blockable = false;
-                }
-                else if (!__instance.m_itemData.m_shared.m_name.StartsWith("$item_"))
-                {
+                    // Increase all non-player abilities
                     __instance.m_itemData.m_shared.m_damages.m_lightning = __instance.m_itemData.m_shared.m_damages.m_lightning * Configuration.Current.EnemyAttackDamageFactor;
                     __instance.m_itemData.m_shared.m_damages.m_damage = __instance.m_itemData.m_shared.m_damages.m_damage * Configuration.Current.EnemyAttackDamageFactor;
                     __instance.m_itemData.m_shared.m_damages.m_chop = __instance.m_itemData.m_shared.m_damages.m_chop * Configuration.Current.EnemyAttackDamageFactor;

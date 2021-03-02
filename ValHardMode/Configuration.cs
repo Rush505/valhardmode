@@ -1,7 +1,4 @@
-﻿using System;
-using BepInEx;
-using BepInEx.Configuration;
-using HarmonyLib;
+﻿using BepInEx.Configuration;
 using System.Collections.Generic;
 
 namespace ValHardMode
@@ -49,17 +46,14 @@ namespace ValHardMode
         public float BossMaxHealthFactor = 1.5f;
 
         public float TrollMovementSpeedFactor = 1.5f;
-        public float TrollAttackSpeedFactor = 2.5f;
 
         public float EikthyrMovementSpeedFactor = 4f;
         public float EikthyrAttackSpeedFactor = 2f;
-        public float EikthyrAttackDamageFactor = 5f;
 
         public float ElderWalkSpeed = 10f;
         public float ElderRunSpeed = 12f;
         public float ElderTurnSpeed = 200f;
         public float ElderRunTurnSpeed = 300f;
-        public float ElderAttackDamageFactor = 2.5f;
 
         public float EnemyAttackDamageFactor = 2f;
         public float EnemyAttackIntervalFactor = .5f;
