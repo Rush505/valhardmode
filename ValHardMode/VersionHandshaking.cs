@@ -10,8 +10,9 @@ namespace ValHardMode
         private static void Postfix(ref ZNet __instance)
         {
             // Always enable mod on dedicated servers and disable on client/solo by default
-            ZLog.Log("ValHardMode - Setting default IsEnabled to " + (__instance.IsServer() & __instance.IsDedicated()).ToString());
-            Configuration.Current.IsEnabled = __instance.IsServer() & __instance.IsDedicated();
+            bool defaultEnabled = __instance.IsDedicated();
+            ZLog.Log("ValHardMode - Setting default IsEnabled to " + defaultEnabled.ToString());
+            Configuration.Current.IsEnabled = defaultEnabled;
 
 #if DEBUG
             Configuration.Current.IsEnabled = true;

@@ -33,7 +33,7 @@ namespace ValHardMode
             if (callingMethod == "GenerateDropList"
                 && !__instance.IsPlayer()
                 && !__instance.IsBoss()
-                && (!__instance.IsTamed() && !Configuration.Current.TamedDropNormalLoot))
+                && !__instance.IsTamed())
             {
                 __result = Math.Min(___m_level, Configuration.Current.MaxLevelEnemyDrops);
                 return false; // Don't call underlying method

@@ -117,6 +117,24 @@ namespace ValHardMode
         }
     }
 
+    [HarmonyPatch(typeof(Humanoid), "OnRagdollCreated")]
+    public static class IncreaseMobRagdollSizeOnLevels
+    {
+        private static void Postfix(Ragdoll ragdoll, Humanoid __instance)
+        {
+            if (Configuration.Current.IsEnabled)
+            {
+                // Increase ragdoll size of higher level mobs
+                int lvl = __instance.GetLevel();
+                if (lvl <= 1)
+                    return;
+
+                float scale = 1 + (Configuration.Current.EnemyLevelSizeIncreaseFactor * (lvl - 1));
+                ragdoll.transform.localScale = new Vector3(scale, scale, scale);
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(BaseAI), "Awake")]
     public static class RemoveFearOfFire
     {

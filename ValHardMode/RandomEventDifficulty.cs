@@ -29,9 +29,6 @@ namespace ValHardMode
                         evnt.m_notRequiredGlobalKeys.Clear();
                     }
 
-                    // Increase duration
-                    evnt.m_duration = evnt.m_duration * 2;
-
                     // Double the possible spawn groups
                     foreach (SpawnSystem.SpawnData spawn in evnt.m_spawn)
                     {
@@ -45,7 +42,7 @@ namespace ValHardMode
                 __instance.m_eventChance = Configuration.Current.RandomEventChance;
 
                 // Decrease minimum time to happen
-                __instance.m_eventIntervalMin = Configuration.Current.RandomEventMinInterval;
+                __instance.m_eventIntervalMin = Configuration.Current.RandomEventIntervalMin;
             }
         }
     }

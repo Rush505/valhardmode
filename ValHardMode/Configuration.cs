@@ -1,5 +1,4 @@
-﻿using BepInEx.Configuration;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ValHardMode
 {
@@ -12,19 +11,27 @@ namespace ValHardMode
 
         public int DataRateOverride = 250;
 
-        // General
-        public float CraftingStationBuildRangeFactor = 2f;
+        // Building
+        public float CraftingStationBuildRangeFactor = 2;
+        public float MaxStationExtensionDistance = 10;
+        public float TreeGrowSpeedFactor = 3;
+
+        // Player
+        public float UnarmedBaseDamage = 50;
 
         // Ship
         public float KarveWeightMax = 1000;
         public float LongshipWeightMax = 4000;
+
         public float ShipWaterImpactDamageFactor = 2.5f;
         public float ShipWaterImpactIntervalFactor = .5f;
         public float ShipUpsideDownDamageFactor = 2.5f;
 
+        public int KarveCargoSlotsWidth = 3;
+
         // Random Events
-        public float RandomEventChance = 20f;
-        public float RandomEventMinInterval = .5f;
+        public float RandomEventChance = 30;
+        public float RandomEventIntervalMin = 30;
         public List<string> RandomEventsToRemoveReqs = new List<string>()
         {
             "skeletons",
@@ -36,34 +43,41 @@ namespace ValHardMode
             "army_theelder"
         };
 
-        // Enemies
+        // All Enemies
+        // Spawning
         public int EnemySpawnAmountFactor = 2;
+        public float EnemyLevelUpChanceFactor = 4;
+        public float EnemyLevelSizeIncreaseFactor = .2f;
 
-        public float EnemyLevelUpChanceFactor = 4f;
-        public float EnemyLevelSizeIncreaseFactor = .1f;
-
-        public float EnemyAttackDamageFactor = 2f;
-        public float EnemyAttackIntervalFactor = .5f;
-        public float EnemyAttackSpeedFactor = .5f;
+        // AI
+        public bool RemoveEnemyFireAvoid = true;
         public float EnemyAttackMinIntervalFactor = .5f;
 
-        public bool RemoveEnemyFireAvoid = true;
+        // Attack
+        public float EnemyAttackDamageFactor = 1.6f;
+        public float EnemyAttackIntervalFactor = .5f;
+        public float EnemyAttackSpeedFactor = .5f;
 
         public float NonBossEnemyMaxHealthFactor = 2.5f;
-        public float BossMaxHealthFactor = 1.5f;
 
-        public float TrollMovementSpeedFactor = 1.5f;
+        // Unique Enemies
+        // Troll
+        public float TrollMovementSpeedFactor = 2f;
 
-        public float EikthyrMovementSpeedFactor = 4f;
-        public float EikthyrAttackSpeedFactor = 2f;
+        // Bosses
+        public float BossMaxHealthFactor = 1.3f;
 
-        public float ElderWalkSpeed = 10f;
-        public float ElderRunSpeed = 12f;
-        public float ElderTurnSpeed = 200f;
-        public float ElderRunTurnSpeed = 300f;
+        public float EikthyrMovementSpeedFactor = 3;
+        public float EikthyrAttackSpeedFactor = 2;
+        public float EikthyrAttackMinIntervalFactor = .3f;
+
+        public float ElderWalkSpeed = 10;
+        public float ElderRunSpeed = 12;
+        public float ElderTurnSpeed = 200;
+        public float ElderRunTurnSpeed = 300;
 
         // Enemy drops
-        public int MaxLevelEnemyDrops = 1;
+        public int MaxLevelEnemyDrops = 2;
         public bool TamedDropNormalLoot = true;
 
         public EnemyDropOverride[] EnemyDropOverrides = new EnemyDropOverride[]
@@ -91,12 +105,37 @@ namespace ValHardMode
                         Chance = .3f
                     }
                 }
+            },
+            new EnemyDropOverride()
+            {
+                Name = "$enemy_wraith",
+                Drops = new DropOverride[]
+                {
+                    new DropOverride()
+                    {
+                        ItemName = "$item_trophy_wraith",
+                        Chance = .2f
+                    }
+                }
+            },
+            new EnemyDropOverride()
+            {
+                Name = "$enemy_drake",
+                Drops = new DropOverride[]
+                {
+                    new DropOverride()
+                    {
+                        ItemName = "$item_trophy_hatchling",
+                        Chance = .2f
+                    }
+                }
             }
         };
 
         // Recipes
         public RecipeOverride[] RecipeOverrides = new RecipeOverride[]
         {
+// Arrows
             new RecipeOverride()
             {
                 Name = "Recipe_ArrowWood",
@@ -111,6 +150,268 @@ namespace ValHardMode
                     {
                         Name = "$item_stone",
                         Amount = 3,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_ArrowFlint",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 10,
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_flint",
+                        Amount = 3
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_feathers",
+                        Amount = 3
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_ArrowBronze",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_feathers",
+                        Amount = 3,
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_ArrowFire",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_flint",
+                        Amount = 3,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_feathers",
+                        Amount = 3,
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_resin",
+                        Amount = 10,
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_ArrowFrost",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_feathers",
+                        Amount = 3
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_obsidian",
+                        Amount = 5
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_ArrowPoison",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_feathers",
+                        Amount = 3
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_obsidian",
+                        Amount = 5
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_ArrowIron",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_feathers",
+                        Amount = 3
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_ArrowObsidian",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_feathers",
+                        Amount = 3
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_ArrowNeedle",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_feathers",
+                        Amount = 3
+                    }
+                }
+            },
+// Weapons
+// Clubs
+            new RecipeOverride()
+            {
+                Name = "Recipe_Club",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 10
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_SledgeStagbreaker",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_bonefragments",
+                        Amount = 15
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_MaceBronze",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_bronze",
+                        Amount = 15,
+                        AmountPerLevel = 5
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 15,
+                        AmountPerLevel = 5
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_leatherscraps",
+                        Amount = 5,
+                        AmountPerLevel = 1
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_greydwarfbrute",
+                        Amount = 1,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_MaceIron",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 20,
+                        AmountPerLevel = 5
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_iron",
+                        Amount = 30,
+                        AmountPerLevel = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_draugrelite",
+                        Amount = 1,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+// Axes
+            new RecipeOverride()
+            {
+                Name = "Recipe_AxeStone",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_resin",
+                        Amount = 2,
                         AmountPerLevel = 1,
                         Recover = true
                     }
@@ -139,16 +440,508 @@ namespace ValHardMode
             },
             new RecipeOverride()
             {
-                Name = "Recipe_Club",
+                Name = "Recipe_AxeBronze",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_bronze",
+                        Amount = 10,
+                        AmountPerLevel = 5
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 15,
+                        AmountPerLevel = 4
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_leatherscraps",
+                        Amount = 2,
+                        AmountPerLevel = 1
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_greydwarf",
+                        Amount = 1,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_Battleaxe",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_elderbark",
+                        Amount = 40,
+                        AmountPerLevel = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_wraith",
+                        Amount = 1,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_AxeIron",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_iron",
+                        Amount = 30,
+                        AmountPerLevel = 12
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Remove = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_finewood",
+                        Amount = 8,
+                        AmountPerLevel = 2,
+                        Recover = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_leatherscraps",
+                        Remove = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_deerhide",
+                        Amount = 3,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_resin",
+                        Amount = 5,
+                        AmountPerLevel = 2,
+                        Recover = true
+                    }
+                }
+            },
+// Pickaxes
+            new RecipeOverride()
+            {
+                Name = "Recipe_PickaxeBronze",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_bronze",
+                        Amount = 10,
+                        AmountPerLevel = 5
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_roundlog",
+                        Amount = 5,
+                        AmountPerLevel = 2
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_greydwarf",
+                        Amount = 1,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_PickaxeIron",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_iron",
+                        Amount = 30,
+                        AmountPerLevel = 12
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_roundlog",
+                        Amount = 5,
+                        AmountPerLevel = 2
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_deerhide",
+                        Amount = 3,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_resin",
+                        Amount = 10,
+                        AmountPerLevel = 3,
+                        Recover = true
+                    }
+                }
+            },
+// Swords
+            new RecipeOverride()
+            {
+                Name = "Recipe_SwordBronze",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_bronze",
+                        Amount = 15,
+                        AmountPerLevel = 5
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 15,
+                        AmountPerLevel = 5
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_leatherscraps",
+                        Amount = 5,
+                        AmountPerLevel = 1
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_greydwarfbrute",
+                        Amount = 1,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_SwordIron",
                 Requirements = new OverrideReq[]
                 {
                     new OverrideReq()
                     {
                         Name = "$item_wood",
-                        Amount = 10
+                        Amount = 20,
+                        AmountPerLevel = 5
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_iron",
+                        Amount = 30,
+                        AmountPerLevel = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_draugrelite",
+                        Amount = 1,
+                        AmountPerLevel = 0,
+                        Recover = true
                     }
                 }
             },
+            new RecipeOverride()
+            {
+                Name = "Recipe_SwordFire",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_leatherscraps",
+                        Remove = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_surtlingcore",
+                        Remove = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_finewood",
+                        Amount = 30,
+                        AmountPerLevel = 8
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_flametal",
+                        Amount = 40,
+                        AmountPerLevel = 12
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_iron",
+                        Amount = 15,
+                        AmountPerLevel = 4,
+                        Recover = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_ymirremains",
+                        Amount = 10,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+// Knives
+            new RecipeOverride()
+            {
+                Name = "Recipe_KnifeFlint",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 4,
+                        AmountPerLevel = 1
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_leatherscraps",
+                        AmountPerLevel = 1
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_KnifeCopper",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 6,
+                        AmountPerLevel = 2
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_greydwarfeye",
+                        Amount = 2
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_KnifeChitin",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_finewood",
+                        Amount = 6,
+                        AmountPerLevel = 2
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_leatherscraps",
+                        AmountPerLevel = 1
+                    }
+                }
+            },
+// Atgeirs
+            new RecipeOverride()
+            {
+                Name = "Recipe_AtgeirBronze",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_bronze",
+                        Amount = 15,
+                        AmountPerLevel = 5
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 15,
+                        AmountPerLevel = 5
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_leatherscraps",
+                        Amount = 5,
+                        AmountPerLevel = 1
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_greydwarfbrute",
+                        Amount = 1,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_AtgeirIron",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 20,
+                        AmountPerLevel = 5
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_iron",
+                        Amount = 30,
+                        AmountPerLevel = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_draugrelite",
+                        Amount = 1,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+// Spears
+            new RecipeOverride()
+            {
+                Name = "Recipe_SpearBronze",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_bronze",
+                        Amount = 10,
+                        AmountPerLevel = 5
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 15,
+                        AmountPerLevel = 4
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_deerhide",
+                        Amount = 2,
+                        AmountPerLevel = 1
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_finewood",
+                        Amount = 5,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    }
+                }
+            },
+// Bows
+            new RecipeOverride()
+            {
+                Name = "Recipe_Bow",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 10,
+                        AmountPerLevel = 6,
+                        Recover = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_resin",
+                        Amount = 2,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_boar",
+                        Amount = 1,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_BowFineWood",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_deerhide",
+                        Remove = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_roundlog",
+                        Amount = 15,
+                        AmountPerLevel = 8
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_finewood",
+                        Amount = 15,
+                        AmountPerLevel = 8
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_resin",
+                        Amount = 3,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_deer",
+                        Amount = 2,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_BowHuntsman",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_finewood",
+                        Amount = 25,
+                        AmountPerLevel = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_iron",
+                        Amount = 30,
+                        AmountPerLevel = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_deerhide",
+                        Remove = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trollhide",
+                        Amount = 3,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    }
+                }
+            },
+// Shields
             new RecipeOverride()
             {
                 Name = "Recipe_ShieldWood",
@@ -191,46 +984,96 @@ namespace ValHardMode
             },
             new RecipeOverride()
             {
-                Name = "Recipe_AxeStone",
+                Name = "Recipe_ShieldBronzeBuckler",
                 Requirements = new OverrideReq[]
                 {
                     new OverrideReq()
                     {
-                        Name = "$item_resin",
-                        Amount = 2,
-                        AmountPerLevel = 1,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_Bow",
-                Requirements = new OverrideReq[]
-                {
+                        Name = "$item_bronze",
+                        Amount = 15,
+                        AmountPerLevel = 8
+                    },
                     new OverrideReq()
                     {
                         Name = "$item_wood",
-                        Amount = 10,
-                        AmountPerLevel = 6,
-                        Recover = true
+                        Amount = 5,
+                        AmountPerLevel = 2
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_resin",
-                        Amount = 2,
-                        AmountPerLevel = 1,
-                        Recover = true
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_boar",
+                        Name = "$item_trophy_greydwarfshaman",
                         Amount = 1,
                         AmountPerLevel = 0,
                         Recover = true
                     }
                 }
             },
+            new RecipeOverride()
+            {
+                Name = "Recipe_ShieldBanded",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_finewood",
+                        Amount = 20,
+                        AmountPerLevel = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_iron",
+                        Amount = 15,
+                        AmountPerLevel = 8
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trollhide",
+                        Amount = 3,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_draugr",
+                        Amount = 1,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_ShieldIronTower",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_finewood",
+                        Amount = 25
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_iron",
+                        Amount = 15,
+                        AmountPerLevel = 8
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trollhide",
+                        Amount = 3,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_trophy_draugr",
+                        Amount = 1,
+                        AmountPerLevel = 0,
+                        Recover = true
+                    }
+                }
+            },
+// Armor
             new RecipeOverride()
             {
                 Name = "Recipe_HelmetLeather",
@@ -338,278 +1181,6 @@ namespace ValHardMode
             },
             new RecipeOverride()
             {
-                Name = "Recipe_ArrowFlint",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 10,
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_flint",
-                        Amount = 3
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_feathers",
-                        Amount = 3
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_MaceBronze",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_bronze",
-                        Amount = 15,
-                        AmountPerLevel = 5
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 15,
-                        AmountPerLevel = 5
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_leatherscraps",
-                        Amount = 5,
-                        AmountPerLevel = 1
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_greydwarfbrute",
-                        Amount = 1,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_SwordBronze",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_bronze",
-                        Amount = 15,
-                        AmountPerLevel = 5
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 15,
-                        AmountPerLevel = 5
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_leatherscraps",
-                        Amount = 5,
-                        AmountPerLevel = 1
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_greydwarfbrute",
-                        Amount = 1,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_AtgeirBronze",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_bronze",
-                        Amount = 15,
-                        AmountPerLevel = 5
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 15,
-                        AmountPerLevel = 5
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_leatherscraps",
-                        Amount = 5,
-                        AmountPerLevel = 1
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_greydwarfbrute",
-                        Amount = 1,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_SpearBronze",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_bronze",
-                        Amount = 10,
-                        AmountPerLevel = 5
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 15,
-                        AmountPerLevel = 4
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_deerhide",
-                        Amount = 2,
-                        AmountPerLevel = 1
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_finewood",
-                        Amount = 5,
-                        AmountPerLevel = 1,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_AxeBronze",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_bronze",
-                        Amount = 10,
-                        AmountPerLevel = 5
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 15,
-                        AmountPerLevel = 4
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_leatherscraps",
-                        Amount = 2,
-                        AmountPerLevel = 1
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_greydwarf",
-                        Amount = 1,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_PickaxeBronze",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_bronze",
-                        Amount = 10,
-                        AmountPerLevel = 5
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_roundlog",
-                        Amount = 5,
-                        AmountPerLevel = 2
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_greydwarf",
-                        Amount = 1,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_ShieldBronzeBuckler",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_bronze",
-                        Amount = 15,
-                        AmountPerLevel = 8
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 5,
-                        AmountPerLevel = 2
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_greydwarfshaman",
-                        Amount = 1,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_BowFineWood",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_deerhide",
-                        Remove = true
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_roundlog",
-                        Amount = 15,
-                        AmountPerLevel = 8
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_finewood",
-                        Amount = 15,
-                        AmountPerLevel = 8
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_resin",
-                        Amount = 3,
-                        AmountPerLevel = 1,
-                        Recover = true
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_deer",
-                        Amount = 2,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
                 Name = "Recipe_ArmorTrollLeatherChest",
                 Requirements = new OverrideReq[]
                 {
@@ -685,52 +1256,6 @@ namespace ValHardMode
                         Name = "$item_bonefragments",
                         Amount = 10,
                         AmountPerLevel = 4
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_ArrowBronze",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_feathers",
-                        Amount = 3,
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_ArrowFire",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_flint",
-                        Amount = 5,
-                        AmountPerLevel = 1,
-                        Recover = true
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_feathers",
-                        Amount = 3,
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_resin",
-                        Amount = 10,
                     }
                 }
             },
@@ -826,317 +1351,6 @@ namespace ValHardMode
                         Name = "$item_greydwarfeye",
                         Amount = 3,
                         AmountPerLevel = 2,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_MeadBaseHealthMinor",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_dandelion",
-                        Amount = 5
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_MeadBaseHealthMedium",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_dandelion",
-                        Amount = 10
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_MeadBaseStaminaMinor",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_dandelion",
-                        Amount = 5,
-                        AmountPerLevel = 1,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_MeadBaseStaminaMedium",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_dandelion",
-                        Amount = 10,
-                        AmountPerLevel = 1,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_MeadBaseTasty",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_dandelion",
-                        Amount = 5,
-                        AmountPerLevel = 1,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_QueensJam",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_dandelion",
-                        Amount = 2,
-                        AmountPerLevel = 1,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_SwordFire",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_finewood",
-                        Amount = 30,
-                        AmountPerLevel = 8
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_flametal",
-                        Amount = 40,
-                        AmountPerLevel = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_surtlingcore",
-                        Amount = 15,
-                        AmountPerLevel = 8
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_leatherscraps",
-                        Remove = true
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_resin",
-                        Amount = 100,
-                        AmountPerLevel = 20,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_MaceIron",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 20,
-                        AmountPerLevel = 5
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_iron",
-                        Amount = 30,
-                        AmountPerLevel = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_draugrelite",
-                        Amount = 1,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_Battleaxe",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_elderbark",
-                        Amount = 40,
-                        AmountPerLevel = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_wraith",
-                        Amount = 1,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_SwordIron",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 20,
-                        AmountPerLevel = 5
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_iron",
-                        Amount = 30,
-                        AmountPerLevel = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_draugrelite",
-                        Amount = 1,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_AtgeirIron",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 20,
-                        AmountPerLevel = 5
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_iron",
-                        Amount = 30,
-                        AmountPerLevel = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_draugrelite",
-                        Amount = 1,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_BowHuntsman",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_finewood",
-                        Amount = 25,
-                        AmountPerLevel = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_iron",
-                        Amount = 30,
-                        AmountPerLevel = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_deerhide",
-                        Remove = true
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trollhide",
-                        Amount = 3,
-                        AmountPerLevel = 1,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_ShieldBanded",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_finewood",
-                        Amount = 20,
-                        AmountPerLevel = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_iron",
-                        Amount = 15,
-                        AmountPerLevel = 8
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trollhide",
-                        Amount = 3,
-                        AmountPerLevel = 1,
-                        Recover = true
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_draugr",
-                        Amount = 1,
-                        AmountPerLevel = 0,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_ShieldIronTower",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_finewood",
-                        Amount = 25
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_iron",
-                        Amount = 15,
-                        AmountPerLevel = 8
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trollhide",
-                        Amount = 3,
-                        AmountPerLevel = 1,
-                        Recover = true
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_draugr",
-                        Amount = 1,
-                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }
@@ -1258,175 +1472,88 @@ namespace ValHardMode
                     }
                 }
             },
+ // Consumables
             new RecipeOverride()
             {
-                Name = "Recipe_PickaxeIron",
+                Name = "Recipe_MeadBaseHealthMinor",
                 Requirements = new OverrideReq[]
                 {
                     new OverrideReq()
                     {
-                        Name = "$item_iron",
-                        Amount = 30,
-                        AmountPerLevel = 12
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_roundlog",
+                        Name = "$item_dandelion",
                         Amount = 5,
-                        AmountPerLevel = 2
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_deerhide",
-                        Amount = 3,
                         AmountPerLevel = 1,
                         Recover = true
-                    },
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_MeadBaseHealthMedium",
+                Requirements = new OverrideReq[]
+                {
                     new OverrideReq()
                     {
-                        Name = "$item_resin",
+                        Name = "$item_dandelion",
                         Amount = 10,
-                        AmountPerLevel = 3,
-                        Recover = true
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_AxeIron",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_iron",
-                        Amount = 30,
-                        AmountPerLevel = 12
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Remove = true
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_finewood",
-                        Amount = 8,
-                        AmountPerLevel = 2,
-                        Recover = true
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_leatherscraps",
-                        Remove = true
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_deerhide",
-                        Amount = 3,
                         AmountPerLevel = 1,
                         Recover = true
-                    },
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_MeadBaseStaminaMinor",
+                Requirements = new OverrideReq[]
+                {
                     new OverrideReq()
                     {
-                        Name = "$item_resin",
+                        Name = "$item_dandelion",
                         Amount = 5,
-                        AmountPerLevel = 2,
+                        AmountPerLevel = 1,
                         Recover = true
                     }
                 }
             },
             new RecipeOverride()
             {
-                Name = "Recipe_ArrowFrost",
+                Name = "Recipe_MeadBaseStaminaMedium",
                 Requirements = new OverrideReq[]
                 {
                     new OverrideReq()
                     {
-                        Name = "$item_wood",
-                        Amount = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_feathers",
-                        Amount = 3
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_obsidian",
-                        Amount = 5
+                        Name = "$item_dandelion",
+                        Amount = 10,
+                        AmountPerLevel = 1,
+                        Recover = true
                     }
                 }
             },
             new RecipeOverride()
             {
-                Name = "Recipe_ArrowPoison",
+                Name = "Recipe_MeadBaseTasty",
                 Requirements = new OverrideReq[]
                 {
                     new OverrideReq()
                     {
-                        Name = "$item_wood",
-                        Amount = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_feathers",
-                        Amount = 3
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_obsidian",
-                        Amount = 5
+                        Name = "$item_dandelion",
+                        Amount = 5,
+                        AmountPerLevel = 1,
+                        Recover = true
                     }
                 }
             },
             new RecipeOverride()
             {
-                Name = "Recipe_ArrowIron",
+                Name = "Recipe_QueensJam",
                 Requirements = new OverrideReq[]
                 {
                     new OverrideReq()
                     {
-                        Name = "$item_wood",
-                        Amount = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_feathers",
-                        Amount = 3
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_ArrowObsidian",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_feathers",
-                        Amount = 3
-                    }
-                }
-            },
-            new RecipeOverride()
-            {
-                Name = "Recipe_ArrowNeedle",
-                Requirements = new OverrideReq[]
-                {
-                    new OverrideReq()
-                    {
-                        Name = "$item_wood",
-                        Amount = 10
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_feathers",
-                        Amount = 3
+                        Name = "$item_dandelion",
+                        Amount = 2,
+                        AmountPerLevel = 1,
+                        Recover = true
                     }
                 }
             }
@@ -1636,7 +1763,7 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_silver",
-                        Amount = 10,
+                        Amount = 5,
                         AmountPerLevel = 1,
                         Recover = true
                     },
@@ -1681,7 +1808,7 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_chitin",
-                        Amount = 10,
+                        Amount = 5,
                         AmountPerLevel = 1,
                         Recover = true
                     }
