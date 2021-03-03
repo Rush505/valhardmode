@@ -9,10 +9,11 @@ namespace ValHardMode
         {
             if (Configuration.Current.IsEnabled)
             {
-                Container container = __instance.gameObject.transform.GetComponentInChildren<Container>();
-                if (container != null)
+                if (__instance.name.ToLower().Contains("karve"))
                 {
-                    container.m_width = Configuration.Current.KarveCargoSlotsWidth;
+                    Container container = __instance.gameObject.transform.GetComponentInChildren<Container>();
+                    if (container != null)
+                        container.m_width = Configuration.Current.KarveCargoSlotsWidth;
                 }
             }
         }

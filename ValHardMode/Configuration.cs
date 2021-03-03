@@ -6,7 +6,7 @@ namespace ValHardMode
     {
         public static Configuration Current { get; set; }
 
-        public string Version = "0.0.12";
+        public string Version = "0.0.13";
         public bool IsEnabled { get; set; }
 
         public int DataRateOverride = 250;
