@@ -101,39 +101,39 @@ namespace ValHardMode
         }
     }
 
-    [HarmonyPatch(typeof(LevelEffects), "SetupLevelVisualization")]
-    public static class IncreaseMobSizeOnLevels
-    {
-        private static void Prefix(int level, ref LevelEffects __instance)
-        {
-            if (Configuration.Current.IsEnabled)
-            {
-                // Increase size of higher level mobs
-                if (level <= 1 || __instance.m_levelSetups.Count < level - 1)
-                    return;
+    //[HarmonyPatch(typeof(LevelEffects), "SetupLevelVisualization")]
+    //public static class IncreaseMobSizeOnLevels
+    //{
+    //    private static void Prefix(int level, ref LevelEffects __instance)
+    //    {
+    //        if (Configuration.Current.IsEnabled)
+    //        {
+    //            // Increase size of higher level mobs
+    //            if (level <= 1 || __instance.m_levelSetups.Count < level - 1)
+    //                return;
 
-                __instance.m_levelSetups[level - 2].m_scale = __instance.m_levelSetups[level - 2].m_scale * (1 + (Configuration.Current.EnemyLevelSizeIncreaseFactor * (level - 1)));
-            }
-        }
-    }
+    //            __instance.m_levelSetups[level - 2].m_scale = __instance.m_levelSetups[level - 2].m_scale * (1 + (Configuration.Current.EnemyLevelSizeIncreaseFactor * (level - 1)));
+    //        }
+    //    }
+    //}
 
-    [HarmonyPatch(typeof(Humanoid), "OnRagdollCreated")]
-    public static class IncreaseMobRagdollSizeOnLevels
-    {
-        private static void Postfix(Ragdoll ragdoll, Humanoid __instance)
-        {
-            if (Configuration.Current.IsEnabled)
-            {
-                // Increase ragdoll size of higher level mobs
-                int lvl = __instance.GetLevel();
-                if (lvl <= 1)
-                    return;
+    //[HarmonyPatch(typeof(Humanoid), "OnRagdollCreated")]
+    //public static class IncreaseMobRagdollSizeOnLevels
+    //{
+    //    private static void Postfix(Ragdoll ragdoll, Humanoid __instance)
+    //    {
+    //        if (Configuration.Current.IsEnabled)
+    //        {
+    //            // Increase ragdoll size of higher level mobs
+    //            int lvl = __instance.GetLevel();
+    //            if (lvl <= 1)
+    //                return;
 
-                float scale = 1 + (Configuration.Current.EnemyLevelSizeIncreaseFactor * (lvl - 1));
-                ragdoll.transform.localScale = new Vector3(scale, scale, scale);
-            }
-        }
-    }
+    //            float scale = 1 + (Configuration.Current.EnemyLevelSizeIncreaseFactor * (lvl - 1));
+    //            ragdoll.transform.localScale = new Vector3(scale, scale, scale);
+    //        }
+    //    }
+    //}
 
     [HarmonyPatch(typeof(BaseAI), "Awake")]
     public static class RemoveFearOfFire

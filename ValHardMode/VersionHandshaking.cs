@@ -5,22 +5,34 @@ using System.Collections.Generic;
 namespace ValHardMode
 {
     [HarmonyPatch(typeof(ZNet), "Awake")]
-    public static class DefaultModStatus
+    public static class EnableOnDedicatedServer
     {
-        private static void Postfix(ref ZNet __instance)
+        private static void Prefix(ref ZNet __instance)
         {
-            // Always enable mod on dedicated servers and disable on client/solo by default
-            bool defaultEnabled = __instance.IsDedicated();
-            ZLog.Log("ValHardMode - Setting default IsEnabled to " + defaultEnabled.ToString());
-            Configuration.Current.IsEnabled = defaultEnabled;
+            // Reset from any previous connection
+            Configuration.Current.IsEnabled = false;
 
-#if DEBUG
-            Configuration.Current.IsEnabled = true;
-            ZLog.Log("ValHardMode - Debug enabled, setting IsEnabled to true");
-#endif
+            // Enable on dedicated servers
+            if (__instance.IsDedicated())
+            {
+                ZLog.Log("ValHardMode - Enabling for dedicated server");
+                Configuration.Current.IsEnabled = true;
+            }
+        }
+    }
 
-            // Store ZNet instance for use by handlers
-            RpcHandlers._zNetInstance = __instance;
+    [HarmonyPatch(typeof(ZNet), "LoadWorld")]
+    public static class EnableOnWorldName
+    {
+        private static void Prefix(ref ZNet __instance)
+        {
+            // Enable for solo/client servers with world name suffix
+            string worldName = __instance.GetWorldName();
+            if (worldName != null && worldName.EndsWith(Configuration.Current.WorldSuffixEnabler))
+            {
+                ZLog.Log("ValHardMode - Enabling based on world name " + worldName);
+                Configuration.Current.IsEnabled = true;
+            }
         }
     }
 
@@ -79,7 +91,6 @@ namespace ValHardMode
 
     public static class RpcHandlers
     {
-        public static ZNet _zNetInstance;
         public static List<ZRpc> _validatedPeers = new List<ZRpc>();
 
         public static void RPC_ValHardMode_Version(ZRpc rpc, ZPackage pkg)
@@ -89,7 +100,7 @@ namespace ValHardMode
             if (version != Configuration.Current.Version)
             {
                 
-                if (_zNetInstance.IsServer())
+                if (ZNet.instance.IsServer())
                 {
                     // Different versions - force disconnect client from server
                     ZLog.LogWarning("ValHardMode - Peer has incompatible version, disconnecting");
@@ -98,7 +109,7 @@ namespace ValHardMode
             }
             else
             {
-                if (!_zNetInstance.IsServer())
+                if (!ZNet.instance.IsServer())
                 {
                     // Enable mod on client if versions match
                     ZLog.Log("ValHardMode - Recieved same version from server, enabling!");

@@ -11,9 +11,8 @@ namespace ValHardMode
             {
                 foreach (RandomEvent evnt in __instance.m_events)
                 {
-                    if (evnt.m_name == "surtlings")
+                    if (Configuration.Current.RandomEventsToDisable.Contains(evnt.m_name))
                     {
-                        // Disable sturtlings random event
                         evnt.m_enabled = false;
                     }
 
@@ -29,12 +28,10 @@ namespace ValHardMode
                         evnt.m_notRequiredGlobalKeys.Clear();
                     }
 
-                    // Double the possible spawn groups
+                    // Change the max amount of possible spawns
                     foreach (SpawnSystem.SpawnData spawn in evnt.m_spawn)
                     {
-                        spawn.m_maxSpawned = spawn.m_maxSpawned * 3;
-                        spawn.m_groupSizeMax = spawn.m_groupSizeMax * 3;
-                        spawn.m_spawnChance = spawn.m_spawnChance * 3;
+                        spawn.m_maxSpawned = spawn.m_maxSpawned * Configuration.Current.RandomEventMaxSpawnedFactor;
                     }
                 }
 

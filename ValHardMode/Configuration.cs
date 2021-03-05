@@ -6,8 +6,9 @@ namespace ValHardMode
     {
         public static Configuration Current { get; set; }
 
-        public string Version = "0.0.13";
+        public string Version = "0.0.14";
         public bool IsEnabled { get; set; }
+        public string WorldSuffixEnabler = "VHM";
 
         public int DataRateOverride = 250;
 
@@ -30,14 +31,18 @@ namespace ValHardMode
         public int KarveCargoSlotsWidth = 3;
 
         // Random Events
-        public float RandomEventChance = 30;
+        public int RandomEventMaxSpawnedFactor = 2;
+        public float RandomEventChance = 25;
         public float RandomEventIntervalMin = 30;
+        public List<string> RandomEventsToDisable = new List<string>()
+        {
+            "surtlings"
+        };
         public List<string> RandomEventsToRemoveReqs = new List<string>()
         {
             "skeletons",
             "foresttrolls"
         };
-
         public List<string> RandomEventsToRemoveLimits = new List<string>()
         {
             "army_theelder"
@@ -54,18 +59,18 @@ namespace ValHardMode
         public float EnemyAttackMinIntervalFactor = .5f;
 
         // Attack
-        public float EnemyAttackDamageFactor = 1.6f;
+        public float EnemyAttackDamageFactor = 1.75f;
         public float EnemyAttackIntervalFactor = .5f;
         public float EnemyAttackSpeedFactor = .5f;
 
-        public float NonBossEnemyMaxHealthFactor = 2.5f;
+        public float NonBossEnemyMaxHealthFactor = 2.3f;
 
         // Unique Enemies
         // Troll
         public float TrollMovementSpeedFactor = 2f;
 
         // Bosses
-        public float BossMaxHealthFactor = 1.3f;
+        public float BossMaxHealthFactor = 1.5f;
 
         public float EikthyrMovementSpeedFactor = 3;
         public float EikthyrAttackSpeedFactor = 2;
@@ -90,7 +95,19 @@ namespace ValHardMode
                     new DropOverride()
                     {
                         ItemName = "$item_trophy_draugrelite",
-                        Chance = .3f
+                        Chance = .25f
+                    }
+                }
+            },
+            new EnemyDropOverride()
+            {
+                Name = "$enemy_greydwarf",
+                Drops = new DropOverride[]
+                {
+                    new DropOverride()
+                    {
+                        ItemName = "$item_trophy_greydwarf",
+                        Chance = .1f
                     }
                 }
             },
@@ -102,7 +119,7 @@ namespace ValHardMode
                     new DropOverride()
                     {
                         ItemName = "$item_trophy_greydwarfbrute",
-                        Chance = .3f
+                        Chance = .25f
                     }
                 }
             },
@@ -114,7 +131,7 @@ namespace ValHardMode
                     new DropOverride()
                     {
                         ItemName = "$item_trophy_wraith",
-                        Chance = .2f
+                        Chance = .25f
                     }
                 }
             },
@@ -126,7 +143,7 @@ namespace ValHardMode
                     new DropOverride()
                     {
                         ItemName = "$item_trophy_hatchling",
-                        Chance = .2f
+                        Chance = .25f
                     }
                 }
             }
@@ -432,8 +449,8 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_trophy_boar",
-                        Amount = 2,
-                        AmountPerLevel = 1,
+                        Amount = 1,
+                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }

@@ -29,14 +29,26 @@ namespace ValHardMode
         }
     }
 
-    [HarmonyPatch(typeof(InventoryGui), "UpdateCraftingPanel")]
-    public static class RecipeCosts
+    [HarmonyPatch(typeof(ZNet), "LoadWorld")]
+    public static class OverwriteRecipesOnLoad
     {
-        private static void Postfix()
+        private static void Prefix()
         {
             if (Configuration.Current.IsEnabled)
             {
                 UpdateReqs.UpdateRecipes(ObjectDB.instance);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(Piece), "Awake")]
+    public static class OverwritePieceResourcesOnAwake
+    {
+        private static void Postfix(ref Piece __instance)
+        {
+            if (Configuration.Current.IsEnabled)
+            {
+                UpdateReqs.UpdatePiece(__instance);
             }
         }
     }
@@ -48,15 +60,7 @@ namespace ValHardMode
         {
             if (Configuration.Current.IsEnabled && __result != null)
             {
-                // Update Piece requirements
-                foreach (Configuration.PieceOverride craftOverride in Configuration.Current.PieceOverrides)
-                {
-                    if (__result.m_name == craftOverride.Name)
-                    {
-                        __result.m_resources = UpdateReqs.Update(__result.m_resources, craftOverride.Requirements);
-                        break;
-                    }
-                }
+                UpdateReqs.UpdatePiece(__result);
             }
         }
     }
@@ -83,6 +87,18 @@ namespace ValHardMode
                     {
                         recipe.m_resources = UpdateReqs.Update(recipe.m_resources, recipeOverride.Requirements);
                     }
+                }
+            }
+        }
+
+        public static void UpdatePiece(Piece piece)
+        {
+            foreach (Configuration.PieceOverride craftOverride in Configuration.Current.PieceOverrides)
+            {
+                if (piece.m_name == craftOverride.Name)
+                {
+                    piece.m_resources = UpdateReqs.Update(piece.m_resources, craftOverride.Requirements);
+                    break;
                 }
             }
         }
