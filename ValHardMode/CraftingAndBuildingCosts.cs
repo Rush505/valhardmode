@@ -29,10 +29,10 @@ namespace ValHardMode
         }
     }
 
-    [HarmonyPatch(typeof(ZNet), "LoadWorld")]
-    public static class OverwriteRecipesOnLoad
+    [HarmonyPatch(typeof(InventoryGui), "UpdateCraftingPanel")]
+    public static class RecipeCosts
     {
-        private static void Prefix()
+        private static void Postfix()
         {
             if (Configuration.Current.IsEnabled)
             {
@@ -40,6 +40,7 @@ namespace ValHardMode
             }
         }
     }
+
 
     [HarmonyPatch(typeof(Piece), "Awake")]
     public static class OverwritePieceResourcesOnAwake
