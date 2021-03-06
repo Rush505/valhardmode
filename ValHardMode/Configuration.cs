@@ -40,12 +40,11 @@ namespace ValHardMode
         };
         public List<string> RandomEventsToRemoveReqs = new List<string>()
         {
-            "skeletons",
-            "foresttrolls"
+            "skeletons"
         };
         public List<string> RandomEventsToRemoveLimits = new List<string>()
         {
-            "army_theelder"
+            "skeletons"
         };
 
         // All Enemies
@@ -83,7 +82,6 @@ namespace ValHardMode
 
         // Enemy drops
         public int MaxLevelEnemyDrops = 2;
-        public bool TamedDropNormalLoot = true;
 
         public EnemyDropOverride[] EnemyDropOverrides = new EnemyDropOverride[]
         {
@@ -150,6 +148,8 @@ namespace ValHardMode
         };
 
         // Recipes
+        public bool SwordFireEnabled = true;
+        public int SwordFireMinStationLevel = 5;
         public RecipeOverride[] RecipeOverrides = new RecipeOverride[]
         {
 // Arrows

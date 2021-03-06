@@ -27,16 +27,16 @@ namespace ValHardMode
                 if (__instance.m_name == "$enemy_troll")
                 {
                     // Troll speed changes
-                    __instance.m_walkSpeed = __instance.m_walkSpeed * Configuration.Current.TrollMovementSpeedFactor;
-                    __instance.m_runSpeed = __instance.m_runSpeed * Configuration.Current.TrollMovementSpeedFactor;
-                    __instance.m_turnSpeed = __instance.m_turnSpeed * Configuration.Current.TrollMovementSpeedFactor;
+                    __instance.m_walkSpeed *= Configuration.Current.TrollMovementSpeedFactor;
+                    __instance.m_runSpeed *= Configuration.Current.TrollMovementSpeedFactor;
+                    __instance.m_turnSpeed *= Configuration.Current.TrollMovementSpeedFactor;
                 }
                 else if (__instance.m_name == "$enemy_eikthyr")
                 {
                     // Eikthyr speed changes
-                    __instance.m_walkSpeed = __instance.m_walkSpeed * Configuration.Current.EikthyrMovementSpeedFactor;
-                    __instance.m_runSpeed = __instance.m_runSpeed * Configuration.Current.EikthyrMovementSpeedFactor;
-                    __instance.m_turnSpeed = __instance.m_turnSpeed * Configuration.Current.EikthyrMovementSpeedFactor;
+                    __instance.m_walkSpeed *= Configuration.Current.EikthyrMovementSpeedFactor;
+                    __instance.m_runSpeed *= Configuration.Current.EikthyrMovementSpeedFactor;
+                    __instance.m_turnSpeed *= Configuration.Current.EikthyrMovementSpeedFactor;
                 }
                 else if (__instance.m_name == "$enemy_gdking")
                 {
@@ -59,16 +59,18 @@ namespace ValHardMode
             {
                 if (!__instance.m_itemData.m_shared.m_name.StartsWith("$item_"))
                 {
-                    // Increase all enemy damage
-                    __instance.m_itemData.m_shared.m_damages.m_lightning = __instance.m_itemData.m_shared.m_damages.m_lightning * Configuration.Current.EnemyAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_fire = __instance.m_itemData.m_shared.m_damages.m_fire * Configuration.Current.EnemyAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_spirit = __instance.m_itemData.m_shared.m_damages.m_spirit * Configuration.Current.EnemyAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_damage = __instance.m_itemData.m_shared.m_damages.m_damage * Configuration.Current.EnemyAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_chop = __instance.m_itemData.m_shared.m_damages.m_chop * Configuration.Current.EnemyAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_slash = __instance.m_itemData.m_shared.m_damages.m_slash * Configuration.Current.EnemyAttackDamageFactor;
-                    __instance.m_itemData.m_shared.m_damages.m_blunt = __instance.m_itemData.m_shared.m_damages.m_blunt * Configuration.Current.EnemyAttackDamageFactor;
+                    // Increase all enemy damage (except poison)
+                    __instance.m_itemData.m_shared.m_damages.m_lightning *= Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_fire *= Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_spirit *= Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_damage *= Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_chop *= Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_slash *= Configuration.Current.EnemyAttackDamageFactor;
+                    __instance.m_itemData.m_shared.m_damages.m_blunt *= Configuration.Current.EnemyAttackDamageFactor;
+
                     __instance.m_itemData.m_shared.m_attack.m_speedFactor = Configuration.Current.EnemyAttackSpeedFactor;
-                    __instance.m_itemData.m_shared.m_aiAttackInterval = __instance.m_itemData.m_shared.m_aiAttackInterval * Configuration.Current.EnemyAttackIntervalFactor;
+
+                    __instance.m_itemData.m_shared.m_aiAttackInterval *= Configuration.Current.EnemyAttackIntervalFactor;
                 }
             }
         }
@@ -82,7 +84,7 @@ namespace ValHardMode
             if (Configuration.Current.IsEnabled)
             {
                 // Enemy minimum attack
-                __instance.m_minAttackInterval = __instance.m_minAttackInterval * Configuration.Current.EnemyAttackMinIntervalFactor;
+                __instance.m_minAttackInterval *= Configuration.Current.EnemyAttackMinIntervalFactor;
             }
         }
     }
@@ -95,8 +97,8 @@ namespace ValHardMode
             if (Configuration.Current.IsEnabled)
             {
                 // Increase the chance for higher level mobs
-                __instance.m_levelupChance = __instance.m_levelupChance * Configuration.Current.EnemyLevelUpChanceFactor;
-                __instance.m_maxTotal = __instance.m_maxTotal * Configuration.Current.EnemySpawnAmountFactor;
+                __instance.m_levelupChance *= Configuration.Current.EnemyLevelUpChanceFactor;
+                __instance.m_maxTotal *= Configuration.Current.EnemySpawnAmountFactor;
             }
         }
     }

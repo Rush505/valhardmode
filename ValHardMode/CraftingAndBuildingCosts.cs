@@ -10,6 +10,7 @@ namespace ValHardMode
     {
         private static void Postfix()
         {
+            ZLog.Log("ValHardMode - Updating recipes post ObjectDB Awake");
             if (Configuration.Current.IsEnabled)
             {
                 UpdateReqs.UpdateRecipes(ObjectDB.instance);
@@ -22,9 +23,23 @@ namespace ValHardMode
     {
         private static void Postfix(ref ObjectDB __instance)
         {
+            ZLog.Log("ValHardMode - Updating recipes post ObjectDB CopyOtherDB");
             if (Configuration.Current.IsEnabled)
             {
                 UpdateReqs.UpdateRecipes(__instance);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(ZNet), "LoadWorld")]
+    public static class RecipePatchAfterLoadWorld
+    {
+        private static void Postfix()
+        {
+            ZLog.Log("ValHardMode - Updating recipes post ZNet LoadWorld");
+            if (Configuration.Current.IsEnabled)
+            {
+                UpdateReqs.UpdateRecipes(ObjectDB.instance);
             }
         }
     }
@@ -78,8 +93,8 @@ namespace ValHardMode
 
                 if (recipe.name == "Recipe_SwordFire")
                 {
-                    recipe.m_enabled = true;
-                    recipe.m_minStationLevel = 4;
+                    recipe.m_enabled = Configuration.Current.SwordFireEnabled;
+                    recipe.m_minStationLevel = Configuration.Current.SwordFireMinStationLevel;
                 }
 
                 foreach (Configuration.RecipeOverride recipeOverride in Configuration.Current.RecipeOverrides)
