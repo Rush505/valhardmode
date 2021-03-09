@@ -6,7 +6,7 @@ namespace ValHardMode
     {
         public static Configuration Current { get; set; }
 
-        public string Version = "0.0.16";
+        public string Version = "0.0.17";
         public bool IsEnabled { get; set; }
         public string WorldSuffixEnabler = "VHM";
 
