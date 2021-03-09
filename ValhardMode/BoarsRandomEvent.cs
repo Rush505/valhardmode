@@ -1,16 +1,15 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
 
 namespace ValHardMode
 {
     [HarmonyPatch(typeof(ZNetScene), "Awake")]
-    public static class AddEikthyrRandomEvent
+    public static class AddBoarRandomEvent
     {
         private static void Postfix()
         {
-            ZLog.Log("ValHardMode - Adding Boars random event post RandEventSystem.Awake");
+            ZLog.Log("ValHardMode - Adding Boars random event");
+
             if (Configuration.Current.IsEnabled)
             {
                 var boarPrefab = ZNetScene.instance.GetPrefab("Boar");
@@ -35,7 +34,7 @@ namespace ValHardMode
                     m_duration = 120,
                     m_nearBaseOnly = true,
                     m_pauseIfNoPlayerInArea = true,
-                    m_biome = Heightmap.Biome.Meadows,
+                    m_biome = Heightmap.Biome.Meadows | Heightmap.Biome.BlackForest | Heightmap.Biome.Swamp | Heightmap.Biome.Mountain | Heightmap.Biome.Plains,
                     m_requiredGlobalKeys = new List<string>(),
                     m_notRequiredGlobalKeys = new List<string>(),
                     m_startMessage = "Boars!",
@@ -48,10 +47,10 @@ namespace ValHardMode
                         {
                             m_name = "boarsevent",
                             m_enabled = true,
-                            m_biome = Heightmap.Biome.Meadows,
+                            m_biome = Heightmap.Biome.Meadows | Heightmap.Biome.BlackForest | Heightmap.Biome.Swamp | Heightmap.Biome.Mountain | Heightmap.Biome.Plains,
                             m_biomeArea = Heightmap.BiomeArea.Everything,
-                            m_maxSpawned = 30,
-                            m_spawnInterval = 25,
+                            m_maxSpawned = 20,
+                            m_spawnInterval = 10,
                             m_spawnChance = 100,
                             m_spawnDistance = 10,
                             m_spawnRadiusMax = 0,
@@ -59,7 +58,7 @@ namespace ValHardMode
                             m_requiredGlobalKey = "",
                             m_requiredEnvironments = new List<string>(),
                             m_groupSizeMin = 3,
-                            m_groupSizeMax = 6,
+                            m_groupSizeMax = 10,
                             m_groupRadius = 5,
                             m_spawnAtNight = true,
                             m_spawnAtDay = true,

@@ -22,16 +22,17 @@ The mod will not load at all when connecting to a server not running the mod or 
 ### Items
 * Increases max stack size of stackable items
 * Prevents most non-equippable/consumable items from being teleported
-* Alters most crafting recipes
+* Increases material cost of most crafting recipes
 
 ### Random Events
-* Increases potential frequency and duration of random events
+* Increases potential frequency and chance of random events
 * Enables Skeleton & Troll events to happen at any time
 * Removes Surtling event
+* Adds 2 new random events
 
 ### Ships
-* Increases damage taken by ships from large waves
 * Ships now have a max weight and will begin to sink if exceeded
+* Increases damage taken by ships from large waves
 * Increases the cargo size of Karve
 
 ### Player
@@ -41,14 +42,14 @@ The mod will not load at all when connecting to a server not running the mod or 
 * Increases max capacity of Smelter-like objects
 * Fireplace-type objects don't consume fuel
 * Increases build range of crafting stations
-* Increases crafting station upgrade range
+* Increases crafting station extension placement range
 * Increases grow time for planted trees
+* Enables Maypole piece for building
 
 ### Dedicated Server
 * Shared features will only load when connecting to a dedicated server with the same version installed
 * Servers running this mod will only allow clients to connect if they also have the same version of the mod installed
 * Fixes incorrect data on Steam server browser
-
 
 ## Installation
 

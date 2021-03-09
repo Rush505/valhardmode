@@ -109,6 +109,11 @@ namespace ValHardMode
 
         public static void UpdatePiece(Piece piece)
         {
+            if (piece.m_name == "Maypole")
+            {
+                piece.m_enabled = true;
+            }
+
             foreach (Configuration.PieceOverride craftOverride in Configuration.Current.PieceOverrides)
             {
                 if (piece.m_name == craftOverride.Name)
