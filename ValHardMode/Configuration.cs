@@ -6,7 +6,7 @@ namespace ValHardMode
     {
         public static Configuration Current { get; set; }
 
-        public string Version = "0.0.17";
+        public string Version = "0.0.18";
         public bool IsEnabled { get; set; }
         public string WorldSuffixEnabler = "VHM";
 
@@ -19,6 +19,7 @@ namespace ValHardMode
 
         // Player
         public float UnarmedBaseDamage = 50;
+        public float ComfortRange = 25f;
 
         // Ship
         public float KarveWeightMax = 1000;
@@ -72,14 +73,11 @@ namespace ValHardMode
         // Bosses
         public float BossMaxHealthFactor = 1.5f;
 
-        public float EikthyrMovementSpeedFactor = 3;
-        public float EikthyrAttackSpeedFactor = 2;
+        public float EikthyrMovementSpeedFactor = 3f;
+        public float EikthyrAttackSpeedFactor = 2f;
         public float EikthyrAttackMinIntervalFactor = .3f;
 
-        public float ElderWalkSpeed = 10;
-        public float ElderRunSpeed = 12;
-        public float ElderTurnSpeed = 200;
-        public float ElderRunTurnSpeed = 300;
+        public float ElderMovementSpeedFactor = 3f;
 
         // Enemy drops
         public int MaxLevelEnemyDrops = 2;
@@ -88,13 +86,13 @@ namespace ValHardMode
         {
             new EnemyDropOverride()
             {
-                Name = "$enemy_draugrelite",
+                Name = "$enemy_greyling",
                 Drops = new DropOverride[]
                 {
                     new DropOverride()
                     {
-                        ItemName = "$item_trophy_draugrelite",
-                        Chance = .25f
+                        ItemName = "$item_resin",
+                        Chance = .5f
                     }
                 }
             },
@@ -107,6 +105,33 @@ namespace ValHardMode
                     {
                         ItemName = "$item_trophy_greydwarf",
                         Chance = .1f
+                    },
+                    new DropOverride()
+                    {
+                        ItemName = "$item_resin",
+                        Chance = .1f
+                    },
+                    new DropOverride()
+                    {
+                        ItemName = "$item_greydwarfeye",
+                        Chance = .25f
+                    }
+                }
+            },
+            new EnemyDropOverride()
+            {
+                Name = "$enemy_greydwarfshaman",
+                Drops = new DropOverride[]
+                {
+                    new DropOverride()
+                    {
+                        ItemName = "$item_greydwarfeye",
+                        Chance = .25f
+                    },
+                    new DropOverride()
+                    {
+                        ItemName = "$item_resin",
+                        Chance = .25f
                     }
                 }
             },
@@ -117,7 +142,7 @@ namespace ValHardMode
                 {
                     new DropOverride()
                     {
-                        ItemName = "$item_trophy_greydwarfbrute",
+                        ItemName = "$item_greydwarfeye",
                         Chance = .25f
                     }
                 }
@@ -130,7 +155,7 @@ namespace ValHardMode
                     new DropOverride()
                     {
                         ItemName = "$item_trophy_wraith",
-                        Chance = .25f
+                        Chance = .1f
                     }
                 }
             },
@@ -142,7 +167,79 @@ namespace ValHardMode
                     new DropOverride()
                     {
                         ItemName = "$item_trophy_hatchling",
+                        Chance = .1f
+                    }
+                }
+            },
+            new EnemyDropOverride()
+            {
+                Name = "$enemy_draugr",
+                Drops = new DropOverride[]
+                {
+                    new DropOverride()
+                    {
+                        ItemName = "$item_trophy_draugr",
+                        Chance = .2f
+                    }
+                }
+            },
+            new EnemyDropOverride()
+            {
+                Name = "$enemy_boar",
+                Drops = new DropOverride[]
+                {
+                    new DropOverride()
+                    {
+                        ItemName = "$item_trophy_boar",
+                        Chance = .1f
+                    }
+                }
+            },
+            new EnemyDropOverride()
+            {
+                Name = "$enemy_deathsquito",
+                Drops = new DropOverride[]
+                {
+                    new DropOverride()
+                    {
+                        ItemName = "$item_trophy_deathsquito",
+                        Chance = .1f
+                    }
+                }
+            },
+            new EnemyDropOverride()
+            {
+                Name = "$enemy_deer",
+                Drops = new DropOverride[]
+                {
+                    new DropOverride()
+                    {
+                        ItemName = "$item_trophy_deer",
                         Chance = .25f
+                    }
+                }
+            },
+            new EnemyDropOverride()
+            {
+                Name = "$enemy_goblinbrute",
+                Drops = new DropOverride[]
+                {
+                    new DropOverride()
+                    {
+                        ItemName = "$item_trophy_goblinbrute",
+                        Chance = .1f
+                    }
+                }
+            },
+            new EnemyDropOverride()
+            {
+                Name = "$enemy_stonegolem",
+                Drops = new DropOverride[]
+                {
+                    new DropOverride()
+                    {
+                        ItemName = "$item_trophy_sgolem",
+                        Chance = .1f
                     }
                 }
             }
@@ -153,7 +250,7 @@ namespace ValHardMode
         public int SwordFireMinStationLevel = 5;
         public RecipeOverride[] RecipeOverrides = new RecipeOverride[]
         {
-// Arrows
+            #region Arrows
             new RecipeOverride()
             {
                 Name = "Recipe_ArrowWood",
@@ -208,7 +305,7 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_feathers",
-                        Amount = 3,
+                        Amount = 3
                     }
                 }
             },
@@ -321,7 +418,7 @@ namespace ValHardMode
             },
             new RecipeOverride()
             {
-                Name = "Recipe_ArrowNeedle",
+                Name = "Recipe_ArrowSilver",
                 Requirements = new OverrideReq[]
                 {
                     new OverrideReq()
@@ -336,8 +433,23 @@ namespace ValHardMode
                     }
                 }
             },
-// Weapons
-// Maces/Clubs
+            new RecipeOverride()
+            {
+                Name = "Recipe_ArrowNeedle",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_wood",
+                        Amount = 10
+                    }
+                }
+            },
+            #endregion
+
+            #region  Weapons
+
+            #region Clubs
             new RecipeOverride()
             {
                 Name = "Recipe_Club",
@@ -402,8 +514,14 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_wood",
-                        Amount = 20,
-                        AmountPerLevel = 5
+                        Remove = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_roundlog",
+                        Amount = 10,
+                        AmountPerLevel = 3,
+                        Recover = true
                     },
                     new OverrideReq()
                     {
@@ -413,9 +531,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_draugrelite",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_flint",
+                        Amount = 10,
+                        AmountPerLevel = 5,
                         Recover = true
                     }
                 }
@@ -497,7 +615,9 @@ namespace ValHardMode
                     }
                 }
             },
-// Axes
+            #endregion
+
+            #region  Axes
             new RecipeOverride()
             {
                 Name = "Recipe_AxeStone",
@@ -558,9 +678,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_greydwarf",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_stone",
+                        Amount = 5,
+                        AmountPerLevel = 2,
                         Recover = true
                     }
                 }
@@ -578,9 +698,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_wraith",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_stone",
+                        Amount = 10,
+                        AmountPerLevel = 4,
                         Recover = true
                     }
                 }
@@ -603,9 +723,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_finewood",
-                        Amount = 8,
-                        AmountPerLevel = 2,
+                        Name = "$item_roundlog",
+                        Amount = 10,
+                        AmountPerLevel = 3,
                         Recover = true
                     },
                     new OverrideReq()
@@ -629,7 +749,39 @@ namespace ValHardMode
                     }
                 }
             },
-// Pickaxes
+            new RecipeOverride()
+            {
+                Name = "Recipe_AxeBlackMetal",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_finewood",
+                        Amount = 10,
+                        AmountPerLevel = 3
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_blackmetal",
+                        Amount = 25
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_linenthread",
+                        Amount = 15
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_obsidian",
+                        Amount = 15,
+                        AmountPerLevel = 7,
+                        Recover = true
+                    }
+                }
+            },
+            #endregion
+
+            #region  Pickaxes
             new RecipeOverride()
             {
                 Name = "Recipe_PickaxeBronze",
@@ -646,13 +798,6 @@ namespace ValHardMode
                         Name = "$item_roundlog",
                         Amount = 5,
                         AmountPerLevel = 2
-                    },
-                    new OverrideReq()
-                    {
-                        Name = "$item_trophy_greydwarf",
-                        Amount = 1,
-                        AmountPerLevel = 0,
-                        Recover = true
                     }
                 }
             },
@@ -689,7 +834,9 @@ namespace ValHardMode
                     }
                 }
             },
-// Swords
+            #endregion
+
+            #region Swords
             new RecipeOverride()
             {
                 Name = "Recipe_SwordBronze",
@@ -715,9 +862,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_greydwarfbrute",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_stone",
+                        Amount = 10,
+                        AmountPerLevel = 2,
                         Recover = true
                     }
                 }
@@ -730,8 +877,14 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_wood",
-                        Amount = 20,
-                        AmountPerLevel = 5
+                        Remove = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_roundlog",
+                        Amount = 10,
+                        AmountPerLevel = 2,
+                        Recover = true
                     },
                     new OverrideReq()
                     {
@@ -741,9 +894,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_draugrelite",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_flint",
+                        Amount = 5,
+                        AmountPerLevel = 2,
                         Recover = true
                     }
                 }
@@ -779,8 +932,8 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_ymirremains",
-                        Amount = 10,
-                        AmountPerLevel = 0,
+                        Amount = 5,
+                        AmountPerLevel = 1,
                         Recover = true
                     }
                 }
@@ -828,7 +981,40 @@ namespace ValHardMode
                     }
                 }
             },
-// Knives
+            new RecipeOverride()
+            {
+                Name = "Recipe_SwordBlackmetal",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_finewood",
+                        Amount = 10,
+                        AmountPerLevel = 3
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_linenthread",
+                        Amount = 15
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_blackmetal",
+                        Amount = 25,
+                        AmountPerLevel = 12
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_obsidian",
+                        Amount = 15,
+                        AmountPerLevel = 7,
+                        Recover = true
+                    }
+                }
+            },
+            #endregion
+
+            #region Knives
             new RecipeOverride()
             {
                 Name = "Recipe_KnifeFlint",
@@ -907,13 +1093,16 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_ymirremains",
-                        Amount = 3,
-                        AmountPerLevel = 1
+                        Name = "$item_obsidian",
+                        Amount = 10,
+                        AmountPerLevel = 4,
+                        Recover = true
                     }
                 }
             },
-// Atgeirs
+            #endregion
+
+            #region Atgeirs
             new RecipeOverride()
             {
                 Name = "Recipe_AtgeirBronze",
@@ -939,9 +1128,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_greydwarfbrute",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_stone",
+                        Amount = 5,
+                        AmountPerLevel = 2,
                         Recover = true
                     }
                 }
@@ -954,8 +1143,14 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_wood",
-                        Amount = 20,
-                        AmountPerLevel = 5
+                        Remove = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_roundlog",
+                        Amount = 15,
+                        AmountPerLevel = 5,
+                        Recover = true
                     },
                     new OverrideReq()
                     {
@@ -965,14 +1160,41 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_draugrelite",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_flint",
+                        Amount = 5,
+                        AmountPerLevel = 2,
                         Recover = true
                     }
                 }
             },
-// Spears
+            new RecipeOverride()
+            {
+                Name = "Recipe_AtgeirBlackmetal",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_finewood",
+                        Amount = 15,
+                        AmountPerLevel = 3
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_linenthread",
+                        Amount = 20
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_obsidian",
+                        Amount = 10,
+                        AmountPerLevel = 4,
+                        Recover = true
+                    }
+                }
+            },
+            #endregion
+
+            #region Spears
             new RecipeOverride()
             {
                 Name = "Recipe_SpearBronze",
@@ -1035,7 +1257,28 @@ namespace ValHardMode
                     }
                 }
             },
-// Bows
+            new RecipeOverride()
+            {
+                Name = "Recipe_SpearChitin",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_leatherscraps",
+                        Amount = 10
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_resin",
+                        Amount = 20,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    }
+                }
+            },
+            #endregion
+
+            #region Bows
             new RecipeOverride()
             {
                 Name = "Recipe_Bow",
@@ -1097,7 +1340,7 @@ namespace ValHardMode
                     {
                         Name = "$item_trophy_deer",
                         Amount = 2,
-                        AmountPerLevel = 0,
+                        AmountPerLevel = 1,
                         Recover = true
                     }
                 }
@@ -1110,8 +1353,14 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_finewood",
-                        Amount = 25,
-                        AmountPerLevel = 10
+                        Remove = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_roundlog",
+                        Amount = 20,
+                        AmountPerLevel = 8,
+                        Recover = true
                     },
                     new OverrideReq()
                     {
@@ -1171,7 +1420,11 @@ namespace ValHardMode
                     }
                 }
             },
-// Shields
+            #endregion
+
+            #endregion
+
+            #region Shields
             new RecipeOverride()
             {
                 Name = "Recipe_ShieldWood",
@@ -1185,9 +1438,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_boar",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_stone",
+                        Amount = 5,
+                        AmountPerLevel = 2,
                         Recover = true
                     }
                 }
@@ -1205,9 +1458,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_neck",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_stone",
+                        Amount = 10,
+                        AmountPerLevel = 4,
                         Recover = true
                     }
                 }
@@ -1231,9 +1484,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_greydwarfshaman",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_stone",
+                        Amount = 5,
+                        AmountPerLevel = 2,
                         Recover = true
                     }
                 }
@@ -1246,8 +1499,14 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_finewood",
-                        Amount = 20,
-                        AmountPerLevel = 10
+                        Remove = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_roundlog",
+                        Amount = 10,
+                        AmountPerLevel = 7,
+                        Recover = true
                     },
                     new OverrideReq()
                     {
@@ -1258,15 +1517,15 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_trollhide",
-                        Amount = 3,
+                        Amount = 2,
                         AmountPerLevel = 1,
                         Recover = true
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_draugr",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_flint",
+                        Amount = 5,
+                        AmountPerLevel = 2,
                         Recover = true
                     }
                 }
@@ -1279,7 +1538,14 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_finewood",
-                        Amount = 25
+                        Remove = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_roundlog",
+                        Amount = 15,
+                        AmountPerLevel = 10,
+                        Recover = true
                     },
                     new OverrideReq()
                     {
@@ -1290,15 +1556,15 @@ namespace ValHardMode
                     new OverrideReq()
                     {
                         Name = "$item_trollhide",
-                        Amount = 3,
+                        Amount = 2,
                         AmountPerLevel = 1,
                         Recover = true
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_draugr",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_flint",
+                        Amount = 10,
+                        AmountPerLevel = 4,
                         Recover = true
                     }
                 }
@@ -1328,14 +1594,47 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_sgolem",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_flint",
+                        Amount = 5,
+                        AmountPerLevel = 2,
                         Recover = true
                     }
                 }
             },
-// Armor
+            new RecipeOverride()
+            {
+                Name = "Recipe_ShieldBlackmetal",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_finewood",
+                        Amount = 20
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_blackmetal",
+                        Amount = 15,
+                        AmountPerLevel = 8
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_chain",
+                        Amount = 6,
+                        AmountPerLevel = 2
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_obsidian",
+                        Amount = 10,
+                        AmountPerLevel = 4,
+                        Recover = true
+                    }
+                }
+            },
+            #endregion
+
+            #region Armor
             new RecipeOverride()
             {
                 Name = "Recipe_HelmetLeather",
@@ -1348,9 +1647,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_boar",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_resin",
+                        Amount = 3,
+                        AmountPerLevel = 1,
                         Recover = true
                     },
                     new OverrideReq()
@@ -1379,9 +1678,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_deer",
-                        Amount = 2,
-                        AmountPerLevel = 0,
+                        Name = "$item_resin",
+                        Amount = 3,
+                        AmountPerLevel = 1,
                         Recover = true
                     },
                     new OverrideReq()
@@ -1403,9 +1702,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_deer",
-                        Amount = 2,
-                        AmountPerLevel = 0,
+                        Name = "$item_resin",
+                        Amount = 3,
+                        AmountPerLevel = 1,
                         Recover = true
                     },
                     new OverrideReq()
@@ -1427,9 +1726,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_deer",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_resin",
+                        Amount = 3,
+                        AmountPerLevel = 1,
                         Recover = true
                     },
                     new OverrideReq()
@@ -1454,9 +1753,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_troll",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_resin",
+                        Amount = 5,
+                        AmountPerLevel = 2,
                         Recover = true
                     },
                     new OverrideReq()
@@ -1481,9 +1780,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_troll",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_resin",
+                        Amount = 5,
+                        AmountPerLevel = 2,
                         Recover = true
                     },
                     new OverrideReq()
@@ -1508,9 +1807,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_troll",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_resin",
+                        Amount = 3,
+                        AmountPerLevel = 1,
                         Recover = true
                     },
                     new OverrideReq()
@@ -1539,9 +1838,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_skeleton",
-                        Amount = 2,
-                        AmountPerLevel = 0,
+                        Name = "$item_roundlog",
+                        Amount = 3,
+                        AmountPerLevel = 1,
                         Recover = true
                     },
                     new OverrideReq()
@@ -1571,9 +1870,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_skeleton",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_roundlog",
+                        Amount = 2,
+                        AmountPerLevel = 1,
                         Recover = true
                     },
                     new OverrideReq()
@@ -1603,9 +1902,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_skeleton",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_roundlog",
+                        Amount = 2,
+                        AmountPerLevel = 1,
                         Recover = true
                     },
                     new OverrideReq()
@@ -1649,9 +1948,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_draugr",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_roundlog",
+                        Amount = 3,
+                        AmountPerLevel = 1,
                         Recover = true
                     }
                 }
@@ -1688,9 +1987,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_draugr",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_roundlog",
+                        Amount = 2,
+                        AmountPerLevel = 1,
                         Recover = true
                     }
                 }
@@ -1727,9 +2026,9 @@ namespace ValHardMode
                     },
                     new OverrideReq()
                     {
-                        Name = "$item_trophy_draugr",
-                        Amount = 1,
-                        AmountPerLevel = 0,
+                        Name = "$item_roundlog",
+                        Amount = 2,
+                        AmountPerLevel = 1,
                         Recover = true
                     }
                 }
@@ -1749,13 +2048,13 @@ namespace ValHardMode
                     {
                         Name = "$item_wolfpelt",
                         Amount = 4,
-                        AmountPerLevel = 2
+                        AmountPerLevel = 1
                     },
                     new OverrideReq()
                     {
                         Name = "$item_crystal",
-                        Amount = 3,
-                        AmountPerLevel = 1,
+                        Amount = 2,
+                        AmountPerLevel = 0,
                         Recover = true
                     }
                 }
@@ -1855,7 +2154,117 @@ namespace ValHardMode
                     }
                 }
             },
- // Consumables
+            new RecipeOverride()
+            {
+                Name = "Recipe_HelmetPadded",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_linenthread",
+                        AmountPerLevel = 8
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_silver",
+                        Amount = 5,
+                        AmountPerLevel = 2,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_ArmorPaddedCuirass",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_linenthread",
+                        AmountPerLevel = 8
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_silver",
+                        Amount = 3,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_ArmorPaddedGreaves",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_linenthread",
+                        AmountPerLevel = 8
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_silver",
+                        Amount = 3,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_CapeLinen",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_linenthread",
+                        AmountPerLevel = 8
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_silver",
+                        Amount = 1,
+                        AmountPerLevel = 1
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_blackmetal",
+                        Amount = 2,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    }
+                }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_CapeLox",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_linenthread",
+                        Amount = 4,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_silver",
+                        AmountPerLevel = 1
+                    },
+                    new OverrideReq()
+                    {
+                        Name = "$item_blackmetal",
+                        Amount = 1,
+                        AmountPerLevel = 1,
+                        Recover = true
+                    }
+                }
+            },
+            #endregion
+
+            #region Consumables
             new RecipeOverride()
             {
                 Name = "Recipe_MeadBaseHealthMinor",
@@ -1939,7 +2348,20 @@ namespace ValHardMode
                         Recover = true
                     }
                 }
+            },
+            new RecipeOverride()
+            {
+                Name = "Recipe_CarrotSoup",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_mushroomcommon",
+                        Amount = 2
+                    }
+                }
             }
+            #endregion
         };
 
         // Pieces

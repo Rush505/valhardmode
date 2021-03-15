@@ -37,6 +37,7 @@ The mod will not load at all when connecting to a server not running the mod or 
 
 ### Player
 * Reduces death skill penalty to only reset progress on current level
+* Increased range for pieces that Rested status into account for calculating comfort level
 
 ### Building
 * Increases max capacity of Smelter-like objects

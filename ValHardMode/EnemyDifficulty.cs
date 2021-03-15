@@ -41,10 +41,10 @@ namespace ValHardMode
                 else if (__instance.m_name == "$enemy_gdking")
                 {
                     // Elder speed changes
-                    __instance.m_walkSpeed = Configuration.Current.ElderWalkSpeed;
-                    __instance.m_runSpeed = Configuration.Current.ElderRunSpeed;
-                    __instance.m_turnSpeed = Configuration.Current.ElderTurnSpeed;
-                    __instance.m_runTurnSpeed = Configuration.Current.ElderRunTurnSpeed;
+                    __instance.m_walkSpeed *= Configuration.Current.ElderMovementSpeedFactor;
+                    __instance.m_runSpeed *= Configuration.Current.ElderMovementSpeedFactor;
+                    __instance.m_turnSpeed *= Configuration.Current.ElderMovementSpeedFactor;
+                    __instance.m_runTurnSpeed *= Configuration.Current.ElderMovementSpeedFactor;
                 }
             }
         }

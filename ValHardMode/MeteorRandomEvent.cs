@@ -4,53 +4,54 @@
 
 //namespace ValHardMode
 //{
-//    [HarmonyPatch(typeof(ZNetScene), "Awake")]
-//    public static class AddMeteorRandomEvent
+//    [HarmonyPatch]
+//    public static class MeteorRandomEvent
 //    {
-//        private static void Postfix()
-//        {
-//            if (Configuration.Current.IsEnabled)
-//            {
-//                ZLog.Log("ValHardMode - Adding Meteor random event");
+//        private static float m_timeSinceLastMeteor = 0;
+//        private static float m_meteorMinTimeMinutes = .2f;
+//        private static float m_meteorChance = 100;
 
-//                if (RandEventSystem.instance == null || RandEventSystem.instance.m_events == null)
-//                {
-//                    ZLog.LogWarning("ValHardMode - RandEventSystem is null");
-//                    return;
-//                }
-
-//                RandEventSystem.instance.m_events.Add(new RandomEvent()
-//                {
-//                    m_name = "vhm-meteorevent",
-//                    m_enabled = true,
-//                    m_random = true,
-//                    m_duration = 10,
-//                    m_nearBaseOnly = true,
-//                    m_pauseIfNoPlayerInArea = false,
-//                    m_biome = Heightmap.Biome.Meadows | Heightmap.Biome.BlackForest | Heightmap.Biome.Swamp | Heightmap.Biome.Mountain | Heightmap.Biome.Plains,
-//                    m_startMessage = "The sky flashes with light!",
-//                    m_forceMusic = "",
-//                    m_forceEnvironment = "Ashrain",
-//                    m_requiredGlobalKeys = new List<string>()
-//                    {
-//                        "defeated_eikthyr"
-//                    },
-//                    m_spawn = new List<SpawnSystem.SpawnData>()
-//                });
-//            }
-//        }
-//    }
-
-//    [HarmonyPatch(typeof(RandomEvent))]
-//    public static class MeteorEvent
-//    {
 //        [HarmonyPostfix]
-//        [HarmonyPatch("OnStart")]
-//        private static void OnStartPostfix(ref RandomEvent __instance)
+//        [HarmonyPatch(typeof(RandEventSystem), "FixedUpdate")]
+//        private static void PostFixedUpdate()
 //        {
-//            if (__instance.m_name == "vhm-meteorevent")
+//            if (!ZNet.instance.IsServer())
+//                return;
+
+//            float fixedDeltaTime = Time.fixedDeltaTime;
+//            m_timeSinceLastMeteor += fixedDeltaTime;
+
+//            if (m_timeSinceLastMeteor > m_meteorMinTimeMinutes * 60.0)
 //            {
-//                MeteorEvent.SpawnMeteor(new Vector3(__instance.m_pos.x + 55, __instance.m_pos.y + 200, __instance.m_pos.z + 55), new Vector3(-30, -100, -30));
+//                ZLog.Log("ValHardMode - Rolling for meteor chance");
+//                m_timeSinceLastMeteor = 0.0f;
+
+//                if (UnityEngine.Random.Range(0.0f, 100f) <= m_meteorChance)
+//                {
+//                    List<ZDO> allCharacterZdos = ZNet.instance.GetAllCharacterZDOS();
+//                    List<Vector3> characterPositions = new List<Vector3>();
+
+//                    foreach (ZDO character in allCharacterZdos)
+//                    {
+//                        if (character.GetPosition().y <= 3000.0)
+//                            characterPositions.Add(character.GetPosition());
+//                    }
+
+//                    if (characterPositions.Count > 0)
+//                    {
+//                        ZLog.Log("ValHardMode - Meteor strike incoming");
+//                        var targetPos = characterPositions[UnityEngine.Random.Range(0, characterPositions.Count)];
+
+//                        int xSign = Random.Range(0, 2) * 2 - 1;
+//                        int zSign = Random.Range(0, 2) * 2 - 1;
+
+//                        var spawnPos = new Vector3(targetPos.x + 55 * xSign, targetPos.y + 150, targetPos.z + 55 * zSign);
+//                        var velocity = new Vector3(-30 * xSign, -80, -30 * zSign);
+
+//                        ZLog.Log("ValHardMode - Sending meteor strike RPC call");
+//                        MeteorRandomEvent.SpawnMeteor(spawnPos, velocity);
+//                    }
+//                }
 //            }
 //        }
 
@@ -59,58 +60,39 @@
 //            var meteorPrefab = ZNetScene.instance.GetPrefab("projectile_meteor");
 //            if (meteorPrefab == null)
 //            {
-//                ZLog.LogWarning("Unable to get meteor prefabs");
+//                ZLog.LogWarning("ValHardMode - Unable to get meteor prefabs");
 //                return;
 //            }
-
-//            // Spawn meteor
-//            ZLog.Log("ValHardMode - Meteor event - Spawning Meteor");
-//            var meteor = UnityEngine.Object.Instantiate<GameObject>(meteorPrefab, spawnPoint, Quaternion.identity);
 
 //            HitData hit = new HitData()
 //            {
 //                m_damage = new HitData.DamageTypes()
 //                {
 //                    m_blunt = 1000,
+//                    m_pickaxe = 1000,
+//                    m_chop = 1000,
 //                    m_fire = 500
 //                },
 //                m_pushForce = 1000
 //            };
 
-//            Projectile projectile = meteor.GetComponent<Projectile>();
+//            Projectile projectile = meteorPrefab.GetComponent<Projectile>();
 //            projectile.name = "event-meteor";
 //            projectile.m_ttl = -1;
-//            projectile.Setup(null, velocity, 1f, hit, null);
-//        }
-//    }
+//            projectile.Setup(null, velocity, 20f, hit, null);
 
-//    [HarmonyPatch(typeof(Projectile))]
-//    public static class SpawnFlametalMineOnMeteorHit
-//    {
-//        [HarmonyPostfix]
-//        [HarmonyPatch("OnHit")]
-//        private static void SpawnOnHitPostfix(ref Projectile __instance, Collider collider, Vector3 hitPoint, bool water)
-//        {
-//            if (__instance.name == "event-meteor" && !water)
-//            {
-//                ZLog.Log("ValHardMode - Spawning meteorite mine");
-//                var minePrefab = ZNetScene.instance.GetPrefab("MineRock_Meteorite");
-//                UnityEngine.Object.Instantiate<GameObject>(minePrefab, hitPoint, Quaternion.identity);
-//                SnapToGround.SnappAll();
-//            }
+//            // Spawn meteor
+//            ZLog.Log("ValHardMode - Spawning Meteor");
+            
 //        }
-//    }
 
-//    [HarmonyPatch(typeof(Console))]
-//    public static class MeteorConsoleCommand
-//    {
 //        [HarmonyPostfix]
-//        [HarmonyPatch("InputText")]
+//        [HarmonyPatch(typeof(Console), "InputText")]
 //        private static void ConsoleSpawnMeteor(ref Console __instance)
 //        {
 //            var inputTxt = __instance.m_input.text;
- 
-//            if (__instance.IsCheatsEnabled() && inputTxt.StartsWith("meteor"))
+
+//            if (__instance.IsCheatsEnabled() && inputTxt.StartsWith("meteor "))
 //            {
 //                string[] txtArr = inputTxt.Split(' ');
 
@@ -132,8 +114,53 @@
 //                var spawnPoint = new Vector3(playerPos.x + spawnX, playerPos.y + spawnY, playerPos.z + spawnZ);
 //                var velocity = new Vector3(velocityX, velocityY, velocityZ);
 
-//                MeteorEvent.SpawnMeteor(spawnPoint, velocity);
+//                MeteorRandomEvent.SpawnMeteor(spawnPoint, velocity);
 //            }
 //        }
 //    }
+
+
+    //[HarmonyPatch(typeof(Projectile))]
+    //public static class SpawnFlametalMineOnMeteorHit
+    //{
+    //    [HarmonyPrefix]
+    //    [HarmonyPatch("OnHit")]
+    //    private static void SpawnOnHitPrefix(ref Projectile __instance, Collider collider, Vector3 hitPoint, bool water)
+    //    {
+    //        if (__instance.name == "event-meteor" && !water)
+    //        {
+    //            ZLog.Log("ValHardMode - Spawning meteorite mine");
+
+    //            if (!Location.IsInsideNoBuildLocation(hitPoint))
+    //            {
+    //                ItemDrop weapon = ObjectDBWrapper.GetItem("$item_pickaxe_iron");
+    //                if (weapon != null)
+    //                {
+    //                    GameObject spawnOnHitPrefab = weapon.m_itemData.m_shared.m_spawnOnHitTerrain;
+    //                    if (spawnOnHitPrefab != null)
+    //                    {
+    //                        TerrainModifier.SetTriggerOnPlaced(true);
+    //                        GameObject go = UnityEngine.Object.Instantiate<GameObject>(spawnOnHitPrefab, hitPoint, Quaternion.identity);
+    //                        TerrainModifier.SetTriggerOnPlaced(false);
+    //                        go.GetComponent<IProjectile>()?.Setup(null, Vector3.zero, -1f, null, weapon.m_itemData);
+    //                    }
+    //                    else
+    //                    {
+    //                        ZLog.LogWarning("ValHardMode - No spawn on hit prefab found");
+    //                    }
+    //                }
+    //                else
+    //                {
+    //                    ZLog.LogWarning("ValHardMode - Error loading pickaxe prefab for meteor terrain mod");
+    //                }
+    //            }
+
+    //            var minePrefab = ZNetScene.instance.GetPrefab("MineRock_Meteorite");
+    //            var spawnPoint = new Vector3(hitPoint.x, hitPoint.y - 3, hitPoint.z);
+    //            UnityEngine.Object.Instantiate<GameObject>(minePrefab, spawnPoint, Quaternion.identity);
+
+    //            SnapToGround.SnappAll();
+    //        }
+    //    }
+    //}
 //}

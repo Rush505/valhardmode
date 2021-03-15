@@ -11,8 +11,7 @@ namespace ValHardMode
         {
             if (Configuration.Current.IsEnabled)
             {
-                // Always set current fuel to max
-                ___m_nview.GetZDO().Set("fuel", __instance.m_maxFuel);
+                ___m_nview.GetZDO().Set("fuel", __instance.m_maxFuel - 1);
             }
         }
     }

@@ -173,10 +173,7 @@ namespace ValHardMode
 
                     if (!updatedReqs.Contains(reqOverride)
                         && !reqOverride.Remove
-                        && reqOverride.AmountIsSet 
-                        && reqOverride.AmountPerLevelIsSet 
-                        && reqOverride.RecoverIsSet 
-                        && !String.IsNullOrEmpty(reqOverride.Name))
+                        && reqOverride.AmountIsSet)
                     {
                         // Create new requirement
                         newReqs.Add(new Piece.Requirement()

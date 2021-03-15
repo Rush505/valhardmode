@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoarsRandomEvent.cs" />
+    <Compile Include="ComfortRange.cs" />
     <Compile Include="ConsoleCommands.cs" />
     <Compile Include="CraftingAndBuildingCosts.cs" />
     <Compile Include="CraftingStationBuildRange.cs" />
@@ -98,7 +99,6 @@
     <Compile Include="DataRateFix.cs" />
     <Compile Include="DisallowItemTeleportation.cs" />
     <Compile Include="DropRateOverrides.cs" />
-    <Compile Include="EikthyrRandomEvent.cs" />
     <Compile Include="MeteorRandomEvent.cs" />
     <Compile Include="ObjectDBWrapper.cs" />
     <Compile Include="PlantGrowTime.cs" />
