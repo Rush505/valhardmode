@@ -4,6 +4,16 @@ using System.Collections.Generic;
 
 namespace ValHardMode
 {
+    [HarmonyPatch(typeof(FejdStartup), "SetupGui")]
+    public static class AddVersionToMenuScreen
+    {
+        private static void Postfix(ref FejdStartup __instance)
+        {
+            __instance.m_versionLabel.fontSize = 14;
+            __instance.m_versionLabel.text += "\n" + "ValHardMode " + Configuration.Current.Version;
+        }
+    }
+
     [HarmonyPatch(typeof(ZNet), "Awake")]
     public static class EnableOnDedicatedServer
     {
