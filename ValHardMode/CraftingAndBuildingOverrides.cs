@@ -91,17 +91,19 @@ namespace ValHardMode
                 if (recipe.m_item == null)
                     continue;
 
-                if (recipe.name == "Recipe_SwordFire")
-                {
-                    recipe.m_enabled = Configuration.Current.SwordFireEnabled;
-                    recipe.m_minStationLevel = Configuration.Current.SwordFireMinStationLevel;
-                }
-
                 foreach (Configuration.RecipeOverride recipeOverride in Configuration.Current.RecipeOverrides)
                 {
                     if (recipe.name == recipeOverride.Name)
                     {
+                        if (recipeOverride.EnabledIsSet)
+                            recipe.m_enabled = recipeOverride.Enabled;
+
+                        if (recipeOverride.MinStationLevelIsSet)
+                            recipe.m_minStationLevel = recipeOverride.MinStationLevel;
+
                         recipe.m_resources = UpdateReqs.Update(recipe.m_resources, recipeOverride.Requirements);
+
+                        break;
                     }
                 }
             }
@@ -109,16 +111,22 @@ namespace ValHardMode
 
         public static void UpdatePiece(Piece piece)
         {
-            if (piece.m_name == "Maypole")
-            {
-                piece.m_enabled = true;
-            }
-
             foreach (Configuration.PieceOverride craftOverride in Configuration.Current.PieceOverrides)
             {
                 if (piece.m_name == craftOverride.Name)
                 {
-                    piece.m_resources = UpdateReqs.Update(piece.m_resources, craftOverride.Requirements);
+                    if (craftOverride.EnabledIsSet)
+                        piece.m_enabled = craftOverride.Enabled;
+
+                    if (craftOverride.GroundOnlyIsSet)
+                        piece.m_groundOnly = craftOverride.GroundOnly;
+
+                    if (craftOverride.NotOnWoodIsSet)
+                        piece.m_notOnWood = craftOverride.NotOnWood;
+
+                    if (craftOverride.Requirements?.Length > 0)
+                        piece.m_resources = UpdateReqs.Update(piece.m_resources, craftOverride.Requirements);
+
                     break;
                 }
             }

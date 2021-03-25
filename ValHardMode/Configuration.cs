@@ -246,8 +246,6 @@ namespace ValHardMode
         };
 
         // Recipes
-        public bool SwordFireEnabled = true;
-        public int SwordFireMinStationLevel = 5;
         public RecipeOverride[] RecipeOverrides = new RecipeOverride[]
         {
             #region Arrows
@@ -904,6 +902,8 @@ namespace ValHardMode
             new RecipeOverride()
             {
                 Name = "Recipe_SwordFire",
+                Enabled = true,
+                MinStationLevel = 4,
                 Requirements = new OverrideReq[]
                 {
                     new OverrideReq()
@@ -2369,6 +2369,17 @@ namespace ValHardMode
         {
             new PieceOverride()
             {
+                Name = "Maypole",
+                Enabled = true
+            },
+            new PieceOverride()
+            {
+                Name = "$piece_bonfire",
+                GroundOnly = false,
+                NotOnWood = false
+            },
+            new PieceOverride()
+            {
                 Name = "$piece_raise",
                 Requirements = new OverrideReq[]
                 {
@@ -2637,12 +2648,89 @@ namespace ValHardMode
         public class PieceOverride
         {
             public string Name;
+
+            private bool m_enabled;
+            public bool EnabledIsSet = false;
+            public bool Enabled
+            {
+                get
+                {
+                    return m_enabled;
+                }
+                set
+                {
+                    m_enabled = value;
+                    EnabledIsSet = true;
+                }
+            }
+
+            private bool m_groundOnly;
+            public bool GroundOnlyIsSet = false;
+            public bool GroundOnly
+            {
+                get
+                {
+                    return m_groundOnly;
+                }
+                set
+                {
+                    m_groundOnly = value;
+                    GroundOnlyIsSet = true;
+                }
+            }
+
+            private bool m_notOnWood;
+            public bool NotOnWoodIsSet = false;
+            public bool NotOnWood
+            {
+                get
+                {
+                    return m_notOnWood;
+                }
+                set
+                {
+                    m_notOnWood = value;
+                    NotOnWoodIsSet = true;
+                }
+            }
+
             public OverrideReq[] Requirements;
         }
 
         public class RecipeOverride
         {
             public string Name;
+
+            private bool m_enabled;
+            public bool EnabledIsSet = false;
+            public bool Enabled
+            {
+                get
+                {
+                    return m_enabled;
+                }
+                set
+                {
+                    m_enabled = value;
+                    EnabledIsSet = true;
+                }
+            }
+
+            private int m_minStationLevel;
+            public bool MinStationLevelIsSet = false;
+            public int MinStationLevel
+            {
+                get
+                {
+                    return m_minStationLevel;
+                }
+                set
+                {
+                    m_minStationLevel = value;
+                    MinStationLevelIsSet = true;
+                }
+            }
+
             public OverrideReq[] Requirements;
         }
 
