@@ -6,7 +6,7 @@ namespace ValHardMode
     {
         public static Configuration Current { get; set; }
 
-        public string Version = "0.0.19";
+        public string Version = "1.0.0";
         public bool IsEnabled { get; set; }
         public string WorldSuffixEnabler = "VHM";
 
@@ -2367,6 +2367,18 @@ namespace ValHardMode
         // Pieces
         public PieceOverride[] PieceOverrides = new PieceOverride[]
         {
+            new PieceOverride()
+            {
+                Name = "$piece_raise",
+                Requirements = new OverrideReq[]
+                {
+                    new OverrideReq()
+                    {
+                        Name = "$item_stone",
+                        Amount = 1
+                    }
+                }
+            },
             new PieceOverride()
             {
                 Name = "$piece_firepit",

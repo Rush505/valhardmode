@@ -94,6 +94,7 @@
     <Compile Include="ComfortRange.cs" />
     <Compile Include="ConsoleCommands.cs" />
     <Compile Include="CraftingAndBuildingCosts.cs" />
+    <Compile Include="PieceRestrictionOverrides.cs" />
     <Compile Include="CraftingStationBuildRange.cs" />
     <Compile Include="CraftingStationExtensionRange.cs" />
     <Compile Include="DisallowItemTeleportation.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="MeteorRandomEvent.cs" />
     <Compile Include="ObjectDBWrapper.cs" />
     <Compile Include="PlantGrowTime.cs" />
+    <Compile Include="RemoveToolDelay.cs" />
     <Compile Include="ServerInfoFix.cs" />
     <Compile Include="ShipCargoSize.cs" />
     <Compile Include="ShipDamage.cs" />
