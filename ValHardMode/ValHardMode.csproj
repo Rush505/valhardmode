@@ -93,7 +93,7 @@
     <Compile Include="BoarsRandomEvent.cs" />
     <Compile Include="ComfortRange.cs" />
     <Compile Include="ConsoleCommands.cs" />
-    <Compile Include="CraftingAndBuildingCosts.cs" />
+    <Compile Include="CraftingAndBuildingOverrides.cs" />
     <Compile Include="CraftingStationBuildRange.cs" />
     <Compile Include="CraftingStationExtensionRange.cs" />
     <Compile Include="DisallowItemTeleportation.cs" />
