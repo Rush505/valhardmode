@@ -12,7 +12,7 @@ namespace ValHardMode
             if (!Configuration.Current.IsEnabled)
                 return;
 
-            __instance.m_toolUseDelay = 0;
+            __instance.m_toolUseDelay = Configuration.Current.ToolUseDelay;
         }
     }
 }

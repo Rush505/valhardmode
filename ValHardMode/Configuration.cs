@@ -6,7 +6,7 @@ namespace ValHardMode
     {
         public static Configuration Current { get; set; }
 
-        public string Version = "1.0.0";
+        public string Version = "1.0.1";
         public bool IsEnabled { get; set; }
         public string WorldSuffixEnabler = "VHM";
 
@@ -20,6 +20,7 @@ namespace ValHardMode
         // Player
         public float UnarmedBaseDamage = 50;
         public float ComfortRange = 25f;
+        public float ToolUseDelay = .25f;
 
         // Ship
         public float KarveWeightMax = 1000;
