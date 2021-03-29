@@ -101,7 +101,6 @@
     <Compile Include="MeteorRandomEvent.cs" />
     <Compile Include="ObjectDBWrapper.cs" />
     <Compile Include="PlantGrowTime.cs" />
-    <Compile Include="RemoveToolDelay.cs" />
     <Compile Include="ServerInfoFix.cs" />
     <Compile Include="ShipCargoSize.cs" />
     <Compile Include="ShipDamage.cs" />
